@@ -282,6 +282,16 @@ caption{caption-side:bottom;text-align:left;padding:10px 14px;font-size:13px;col
 .q h3{font-size:15.5px}
 .q p{font-size:14px;color:var(--ink-2);line-height:1.5}
 
+.q.done{border-left-color:var(--ok)}
+.q .ans{
+  margin-top:2px;padding-top:8px;border-top:1px dashed var(--rule);
+  font-size:13.5px;color:var(--ink-2);line-height:1.5;
+}
+.q .ans span{
+  font-family:Barlow,sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  background:var(--ok-soft);color:var(--ok);padding:2px 6px;margin-right:7px;white-space:nowrap;
+}
+
 .risks{display:flex;flex-direction:column;gap:10px}
 .risk{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline;font-size:14.5px;color:var(--ink-2)}
 .risk .lv{font-family:Barlow,sans-serif;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:3px 8px}
@@ -656,33 +666,27 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       <h3>Block at WO closing: how strict?</h3>
       <p>If crimps are missing or a PFM occurred, is the WO blocked outright, or can the shift leader force the closing with a recorded reason?</p>
     </div>
-    <div class="q">
+    <div class="q done">
       <h3>How to count manual scraps</h3>
       <p>Should pieces scrapped by the operator on the crimper (<span class="icode">ManualScrap</span>) be deducted from the expected quantity, or counted as missing pieces?</p>
+      <p class="ans"><span>Answered</span> Same behaviour as PFM: the piece is scrap to all effects, the sequence restarts from 1 and it does not count towards the good quantity.</p>
     </div>
     <div class="q">
       <h3>PNO without crimping data</h3>
       <p>Does the job stop at the start, or does it run with a warning and leave the crimper in manual mode? Today the blocking code exists but is disabled.</p>
     </div>
-    <div class="q">
+    <div class="q done">
       <h3>PCS version running at Hermes</h3>
       <p>To be checked in order to size the merge: which version is in production today, and on which cells the crimper has to be enabled.</p>
+      <p class="ans"><span>Answered</span> Version <b>1.0.1.14</b>, to be confirmed on site. Cross-checked in the sources: it is the version on <span class="icode">master</span>, and the same one the Uniflex branch starts from. Which cells to enable the crimper on is still to be decided.</p>
     </div>
     <div class="q">
       <h3>Crimping master data: who owns it</h3>
       <p>Who holds the diameter, correction, opening and die set figures for the Hermes part numbers, and in what format they can be handed over for the initial load.</p>
     </div>
     <div class="q">
-      <h3>Portal: scope and environment</h3>
-      <p>Which tables should be editable, which Active Directory groups to use for the two profiles, and on which server to publish.</p>
-    </div>
-    <div class="q">
-      <h3>Uniflex availability for the tests</h3>
-      <p>Norman Stommel needs to be present, at least remotely, during the trials: their software has never been put to the test against the real PCS.</p>
-    </div>
-    <div class="q">
-      <h3>Points left open from the 16/09/2025 meeting</h3>
-      <p>Parker logo on the crimper screen and the update procedure for the machine software: never confirmed in writing by Uniflex.</p>
+      <h3>Uniflex documentation</h3>
+      <p>A document describing the software changes, the implemented behaviours and the customisations made at our request should have been delivered together with the machines. Did it reach Hermes? It is the reference we need for the tests.</p>
     </div>
   </div>
 </section>

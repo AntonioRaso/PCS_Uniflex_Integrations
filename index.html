@@ -282,6 +282,16 @@ caption{caption-side:bottom;text-align:left;padding:10px 14px;font-size:13px;col
 .q h3{font-size:15.5px}
 .q p{font-size:14px;color:var(--ink-2);line-height:1.5}
 
+.q.done{border-left-color:var(--ok)}
+.q .ans{
+  margin-top:2px;padding-top:8px;border-top:1px dashed var(--rule);
+  font-size:13.5px;color:var(--ink-2);line-height:1.5;
+}
+.q .ans span{
+  font-family:Barlow,sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  background:var(--ok-soft);color:var(--ok);padding:2px 6px;margin-right:7px;white-space:nowrap;
+}
+
 .risks{display:flex;flex-direction:column;gap:10px}
 .risk{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline;font-size:14.5px;color:var(--ink-2)}
 .risk .lv{font-family:Barlow,sans-serif;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:3px 8px}
@@ -658,33 +668,27 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       <h3>Blocco alla chiusura del WO: quanto rigido?</h3>
       <p>Se mancano crimpature o ci sono PFM, il WO resta bloccato in assoluto, oppure il capoturno può forzare la chiusura con motivazione registrata?</p>
     </div>
-    <div class="q">
+    <div class="q done">
       <h3>Come contare gli scarti manuali</h3>
       <p>I pezzi scartati dall'operatore sulla crimpatrice (<span class="icode">ManualScrap</span>) vanno scomputati dalla quantità attesa o considerati pezzi mancanti?</p>
+      <p class="ans"><span>Risposto</span> Stesso comportamento del PFM: il pezzo è scarto a tutti gli effetti, la sequenza riparte da 1 e non concorre alla quantità buona.</p>
     </div>
     <div class="q">
       <h3>PNO senza dati di crimpatura</h3>
       <p>Il job si blocca in partenza, oppure parte con un avviso e la crimpatrice resta in modalità manuale? Oggi il codice di blocco esiste ma è disattivato.</p>
     </div>
-    <div class="q">
+    <div class="q done">
       <h3>Versione PCS in esercizio ad Hermes</h3>
       <p>Da verificare per dimensionare il merge: quale versione gira oggi in produzione e su quali celle va attivata la crimpatrice.</p>
+      <p class="ans"><span>Risposto</span> Versione <b>1.0.1.14</b>, da confermare in loco. Riscontro nei sorgenti: è la versione di <span class="icode">master</span>, ed è la stessa da cui parte la branch Uniflex. Resta da stabilire su quali celle attivare la crimpatrice.</p>
     </div>
     <div class="q">
       <h3>Anagrafica crimpature: chi la mantiene</h3>
       <p>Chi possiede i dati diametro, correzione, apertura e matrice per i codici Hermes, e in che formato possono essere consegnati per il primo caricamento.</p>
     </div>
     <div class="q">
-      <h3>Portale: perimetro e ambiente</h3>
-      <p>Quali tabelle rendere modificabili, quali gruppi Active Directory usare per i due profili, e su quale server pubblicare.</p>
-    </div>
-    <div class="q">
-      <h3>Disponibilità Uniflex per i test</h3>
-      <p>Serve la presenza, almeno da remoto, di Norman Stommel durante le prove: il loro software non è mai stato messo alla prova contro il PCS reale.</p>
-    </div>
-    <div class="q">
-      <h3>Punti aperti dal meeting del 16/09/2025</h3>
-      <p>Logo Parker sulla schermata della crimpatrice e procedura di aggiornamento del software macchina: mai confermati per iscritto da Uniflex.</p>
+      <h3>Documentazione Uniflex</h3>
+      <p>Insieme alle macchine dovrebbe essere stato consegnato un documento che descrive le modifiche al software, i comportamenti implementati e le personalizzazioni fatte su nostra richiesta. È arrivato ad Hermes? Serve come riferimento per i test.</p>
     </div>
   </div>
 </section>
