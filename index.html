@@ -123,19 +123,27 @@ a{color:var(--blue)}
 
 /* ---------- brand bar + masthead ---------- */
 .brandbar{
-  background:var(--charcoal);border-bottom:4px solid var(--gold);
-  margin:0 -24px 0;padding:14px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  background:#FFFFFF;border-bottom:4px solid var(--gold);
+  margin:0 -24px 0;padding:13px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
 }
+.brandbar img.logo{height:30px;width:auto;display:block;flex:none}
 .brandbar .mark{
-  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:24px;letter-spacing:.02em;
-  color:#FFFFFF;text-transform:uppercase;line-height:1;
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:25px;letter-spacing:.02em;
+  color:#1C1C1C;text-transform:uppercase;line-height:1;
 }
-.brandbar .mark em{color:var(--gold);font-style:normal}
+.brandbar .mark em{color:var(--gold-deep);font-style:normal}
 .brandbar .unit{
   font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
-  color:#B9BDC0;border-left:1px solid #4A4E52;padding-left:14px;
+  color:#5A5F63;border-left:1px solid #D0D3D6;padding-left:16px;
 }
-.brandbar .doctype{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.brandbar .doctype{
+  margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:#8A6A12;
+}
+@media (max-width:520px){
+  .brandbar .unit{border-left:none;padding-left:0;flex-basis:100%}
+  .brandbar .doctype{margin-left:0}
+}
 
 header.masthead{display:flex;flex-direction:column;gap:18px;border-bottom:1px solid var(--rule);padding:34px 0 26px}
 .kicker{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:baseline}
@@ -292,7 +300,9 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
 <div class="wrap">
 
 <div class="brandbar">
-  <span class="mark">Parker<em>.</em></span>
+  <img class="logo" src="images/parker_logo.png" alt="Parker Hannifin"
+       onerror="this.hidden=true;document.getElementById('brandFallback').hidden=false">
+  <span class="mark" id="brandFallback" hidden>Parker<em>.</em></span>
   <span class="unit">Hose Assembly — Process Control System</span>
   <span class="doctype">Stato progetto</span>
 </div>
