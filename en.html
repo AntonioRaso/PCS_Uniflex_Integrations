@@ -635,11 +635,13 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       <p>It only exists on PCS_PokaYoke_Veniano. On Hermes the schema has to be created, the
       <span class="icode">productComponents</span> migration applied and the crimping master data loaded.</p>
     </div></div>
-    <div class="item"><span class="tag t-gap">Critical</span><div class="body">
+    <div class="item"><span class="tag t-open">To clarify</span><div class="body">
       <h3>Code alignment</h3>
-      <p>The Uniflex branch has been frozen since July 2025 and was never merged into master, while the features requested
-      by Hermes (user management, alternative part codes, second diameter, multiple operator) were developed afterwards,
-      up to January 2026. A merge with conflict resolution and a regression pass are needed.</p>
+      <p>The Uniflex branch starts from <span class="icode">master</span> 1.0.1.14, the very version running at
+      Hermes: the two baselines match and the integration is straightforward. What needs clarifying instead is
+      whether Hermes also expects the features developed later — user management, alternative part codes, second
+      diameter, multiple operator — which live on 1.0.2.x branches that were never released and are therefore not
+      in production there today.</p>
     </div></div>
     <div class="item"><span class="tag t-open">New</span><div class="body">
       <h3>Web portal for master data management</h3>
@@ -678,7 +680,7 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <div class="q done">
       <h3>PCS version running at Hermes</h3>
       <p>To be checked in order to size the merge: which version is in production today, and on which cells the crimper has to be enabled.</p>
-      <p class="ans"><span>Answered</span> Version <b>1.0.1.14</b>, to be confirmed on site. Cross-checked in the sources: it is the version on <span class="icode">master</span>, and the same one the Uniflex branch starts from. Which cells to enable the crimper on is still to be decided.</p>
+      <p class="ans"><span>Confirmed</span> Version <b>1.0.1.14</b>, confirmed by Hermes and cross-checked in the sources: it is the version on <span class="icode">master</span>, the same one the Uniflex branch starts from. The two baselines match. Which cells to enable the crimper on is still to be decided.</p>
     </div>
     <div class="q">
       <h3>Crimping master data: who owns it</h3>

@@ -637,11 +637,12 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       <p>Esiste solo su PCS_PokaYoke_Veniano. Su Hermes va creato lo schema, applicata la migrazione di
       <span class="icode">productComponents</span> e caricata l'anagrafica di crimpatura.</p>
     </div></div>
-    <div class="item"><span class="tag t-gap">Critico</span><div class="body">
+    <div class="item"><span class="tag t-open">Da chiarire</span><div class="body">
       <h3>Allineamento del codice</h3>
-      <p>La branch Uniflex è ferma a luglio 2025 e non è mai stata integrata su master, mentre le funzionalità
-      richieste da Hermes (gestione utenti, codici alternativi, secondo diametro, operatore multiplo) sono state
-      sviluppate dopo, fino a gennaio 2026. Serve un merge con risoluzione conflitti e un giro di regressione.</p>
+      <p>La branch Uniflex parte da <span class="icode">master</span> 1.0.1.14, la stessa versione in esercizio
+      ad Hermes: le due basi coincidono e l’integrazione è lineare. Da chiarire piuttosto se Hermes si aspetta
+      anche le funzionalità sviluppate dopo — gestione utenti, codici alternativi, secondo diametro, operatore
+      multiplo — che vivono su branch 1.0.2.x mai rilasciate e quindi oggi non sono in produzione da loro.</p>
     </div></div>
     <div class="item"><span class="tag t-open">Nuovo</span><div class="body">
       <h3>Portale web per la gestione delle anagrafiche</h3>
@@ -680,7 +681,7 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <div class="q done">
       <h3>Versione PCS in esercizio ad Hermes</h3>
       <p>Da verificare per dimensionare il merge: quale versione gira oggi in produzione e su quali celle va attivata la crimpatrice.</p>
-      <p class="ans"><span>Risposto</span> Versione <b>1.0.1.14</b>, da confermare in loco. Riscontro nei sorgenti: è la versione di <span class="icode">master</span>, ed è la stessa da cui parte la branch Uniflex. Resta da stabilire su quali celle attivare la crimpatrice.</p>
+      <p class="ans"><span>Confermato</span> Versione <b>1.0.1.14</b>, confermata da Hermes e riscontrata nei sorgenti: è la versione di <span class="icode">master</span>, la stessa da cui parte la branch Uniflex. Le due basi coincidono. Resta da stabilire su quali celle attivare la crimpatrice.</p>
     </div>
     <div class="q">
       <h3>Anagrafica crimpature: chi la mantiene</h3>
