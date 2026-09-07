@@ -1,0 +1,71 @@
+flowchart TB
+
+  subgraph PCS["PCS PokaYoke — cella di produzione"]
+    direction TB
+    A1["Operatore avvia il job<br/>WO + PNO + QTY"]
+    A2["SetupUniflexCrimper()<br/>legge uniflex.CrimpingSetup per il PNO"]
+    A3{"PNO presente<br/>in CrimpingSetup?"}
+    A4["Genera ID_JOB (GUID)<br/>DELETE dei record con ID_CRIMPER della cella<br/>INSERT delle sequenze di crimpatura"]
+    A5["Form05Cutting<br/>mostra DIE_SET e sequenze all'operatore"]
+    A6["Errore setup crimpatrice<br/>DA DEFINIRE: blocca il job o prosegue?"]
+    A7["Chiusura Work Order"]
+    A8{"Record TAB_RESULTS per ID_JOB<br/>= MAX(SEQUENCE) x BATCH_QTY<br/>e nessun PFM ?"}
+    A9["WO chiuso"]
+    A10["Chiusura BLOCCATA<br/>messaggio all'operatore"]
+  end
+
+  subgraph DB["SQL Server — schema uniflex (unico canale di scambio)"]
+    direction TB
+    T0[("CrimpingSetup<br/>anagrafica per PNO<br/>diam, correzione, apertura, matrice")]
+    T1[("Tab_Crimping<br/>ID_CRIMPER · SEQUENCE · DESCRIPTION<br/>DM_CRIMP · CORRECTION · OPENING_DM<br/>DIE_SET · BATCH_QTY · ID_JOB")]
+    T2[("TAB_RESULTS<br/>ID_JOB · ID_CRIMPER · SEQUENCE<br/>TIMESTAMP · Pressure · PFM · ManualScrap")]
+  end
+
+  subgraph UNI["Crimpatrice Uniflex — IPC"]
+    direction TB
+    B1["Acquisizione dati job<br/>polling ogni 30 s sul cambio di ID_JOB<br/>oppure pulsante di acquisizione"]
+    B2["Propone la matrice DIE_SET<br/>e la sequenza di crimpature"]
+    B3["Crimpatura dello step SEQUENCE n<br/>one-piece flow: un pezzo completo per volta"]
+    B4{"Esito dello step"}
+    B5["Contatori a video<br/>pezzi buoni · pezzi con problema · step totali<br/>attesi: BATCH_QTY e MAX(SEQUENCE) x BATCH_QTY"]
+    B6["Messaggio 'Job completato'<br/>quando pezzi buoni = BATCH_QTY<br/>l'operatore puo' proseguire"]
+    B7["Messaggio 'Pezzo da verificare'<br/>la sequenza riparte da 1"]
+    B8["Scarto manuale<br/>pulsante sul pannello"]
+  end
+
+  PBI["Power BI<br/>reportistica di processo"]
+
+  A1 --> A2
+  T0 -. "lettura anagrafica" .-> A2
+  A2 --> A3
+  A3 -- "no" --> A6
+  A3 -- "si" --> A4
+  A4 == "SCRIVE (sostituisce)" ==> T1
+  A4 --> A5
+
+  T1 == "LEGGE" ==> B1
+  B1 --> B2 --> B3 --> B4
+  B4 -- "OK" --> B5
+  B4 -- "PFM: processo interrotto" --> B7
+  B4 -- "difetto rilevato dall'operatore" --> B8
+  B7 --> B5
+  B8 --> B5
+  B5 --> B6
+  B5 -- "step successivo" --> B3
+
+  B4 == "SCRIVE 1 record per step<br/>pressione massima" ==> T2
+  B8 == "SCRIVE ManualScrap" ==> T2
+
+  A5 --> A7 --> A8
+  T2 == "LEGGE (verifica bloccante)" ==> A8
+  A8 -- "si" --> A9
+  A8 -- "no" --> A10
+
+  T2 -.-> PBI
+
+  classDef todo fill:#F7E3E1,stroke:#A32F2F,stroke-width:2px,color:#5A1A1A;
+  classDef open fill:#F5EBD2,stroke:#8A6820,stroke-width:1px,color:#4A3A10;
+  classDef store fill:#E8EEF1,stroke:#4C6B7A,color:#1A2328;
+  class A8,A10 todo;
+  class A6 open;
+  class T0,T1,T2 store;
