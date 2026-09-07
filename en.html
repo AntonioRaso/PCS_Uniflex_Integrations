@@ -1,0 +1,708 @@
+<title>PCS Uniflex — Project Restart</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+/* ================================================================
+   Parker brand skin
+   Parker Gold / Charcoal / Purpose Blue.
+   Display: Barlow Condensed (sostituto libero di DIN 2014)
+   Testo:   Barlow (sostituto libero di Pragmatica)
+   I valori esatti di marca vanno confermati sul portale ParkerID.
+   ================================================================ */
+:root{
+  /* --- marca --- */
+  --gold:#FFB612;
+  --gold-deep:#D99400;
+  --gold-soft:#FFF1D0;
+  --charcoal:#2B2B2B;
+  --blue:#00477E;
+  --blue-soft:#DCE6EF;
+
+  /* --- superfici --- */
+  --paper:#FFFFFF;
+  --surface:#FFFFFF;
+  --surface-2:#F2F3F4;
+  --ink:#1C1C1C;
+  --ink-2:#4A4E52;
+  --ink-3:#7A8085;
+  --rule:#DCDEE0;
+  --rule-strong:#B4B8BC;
+
+  /* --- ruoli --- */
+  --accent:var(--gold-deep);
+  --accent-soft:var(--gold-soft);
+  --steel:var(--blue);
+  --ok:#2C7A4B;
+  --ok-soft:#E2F0E7;
+  --gap:#B02A21;
+  --gap-soft:#F7E4E2;
+  --open:#8A6A12;
+  --open-soft:#FBEFD3;
+  --shadow:0 1px 2px rgba(28,28,28,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --gold:#FFC23D;
+    --gold-deep:#FFB612;
+    --gold-soft:#3A2C0A;
+    --charcoal:#151617;
+    --blue:#7FB2DE;
+    --blue-soft:#16232E;
+    --paper:#131415;
+    --surface:#1B1D1F;
+    --surface-2:#242729;
+    --ink:#EDEEEF;
+    --ink-2:#B4BABE;
+    --ink-3:#868C91;
+    --rule:#2E3235;
+    --rule-strong:#484D51;
+    --accent:var(--gold);
+    --accent-soft:var(--gold-soft);
+    --steel:var(--blue);
+    --ok:#6FC08F;
+    --ok-soft:#17301F;
+    --gap:#E8837A;
+    --gap-soft:#331C1A;
+    --open:#DEBB5E;
+    --open-soft:#332A11;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --gold:#FFC23D;
+  --gold-deep:#FFB612;
+  --gold-soft:#3A2C0A;
+  --charcoal:#151617;
+  --blue:#7FB2DE;
+  --blue-soft:#16232E;
+  --paper:#131415;
+  --surface:#1B1D1F;
+  --surface-2:#242729;
+  --ink:#EDEEEF;
+  --ink-2:#B4BABE;
+  --ink-3:#868C91;
+  --rule:#2E3235;
+  --rule-strong:#484D51;
+  --accent:var(--gold);
+  --accent-soft:var(--gold-soft);
+  --steel:var(--blue);
+  --ok:#6FC08F;
+  --ok-soft:#17301F;
+  --gap:#E8837A;
+  --gap-soft:#331C1A;
+  --open:#DEBB5E;
+  --open-soft:#332A11;
+  --shadow:none;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:Barlow,"Helvetica Neue",Arial,sans-serif;
+  font-size:16.5px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px 96px;display:flex;flex-direction:column;gap:44px}
+.prose{max-width:70ch}
+
+h1,h2,h3,.label,th,.mono{font-family:"Barlow Condensed",Barlow,"Arial Narrow",sans-serif}
+h1{font-size:clamp(34px,5vw,52px);line-height:1.03;font-weight:700;letter-spacing:-.005em;margin:0;text-wrap:balance;text-transform:uppercase}
+h2{font-size:27px;font-weight:600;letter-spacing:.005em;margin:0;text-wrap:balance;text-transform:uppercase}
+h3{font-size:17px;font-weight:600;margin:0;letter-spacing:.01em;font-family:Barlow,sans-serif}
+p{margin:0}
+.label{
+  font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);
+}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--gold-deep);outline-offset:2px}
+
+/* ---------- brand bar + masthead ---------- */
+.brandbar{
+  background:#FFFFFF;border-bottom:4px solid var(--gold);
+  margin:0 -24px 0;padding:13px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.brandbar img.logo{height:30px;width:auto;display:block;flex:none}
+.brandbar .mark{
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:25px;letter-spacing:.02em;
+  color:#1C1C1C;text-transform:uppercase;line-height:1;
+}
+.brandbar .mark em{color:var(--gold-deep);font-style:normal}
+.brandbar .unit{
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:#5A5F63;border-left:1px solid #D0D3D6;padding-left:16px;
+}
+.brandbar .langsw{
+  display:flex;align-items:center;gap:2px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
+  letter-spacing:.1em;border:1px solid #D0D3D6;
+}
+.brandbar .langsw a,.brandbar .langsw b{padding:4px 9px;line-height:1;text-decoration:none}
+.brandbar .langsw a{color:#5A5F63}
+.brandbar .langsw a:hover{background:var(--gold-soft);color:#1C1C1C}
+.brandbar .langsw b{background:var(--gold);color:#1C1C1C;font-weight:600}
+
+.brandbar .doctype{
+  margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:#8A6A12;
+}
+@media (max-width:520px){
+  .brandbar .unit{border-left:none;padding-left:0;flex-basis:100%}
+  .brandbar .doctype{margin-left:0}
+}
+
+header.masthead{display:flex;flex-direction:column;gap:18px;border-bottom:1px solid var(--rule);padding:34px 0 26px}
+.kicker{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:baseline}
+.kicker .label{color:var(--gold-deep)}
+.deck{font-size:20px;color:var(--ink-2);max-width:64ch;line-height:1.5}
+.meta-row{display:flex;flex-wrap:wrap;gap:6px 28px;font-size:12.5px;color:var(--ink-3);font-family:"IBM Plex Mono",monospace}
+.meta-row b{color:var(--ink-2);font-weight:500}
+
+/* ---------- headline figures ---------- */
+.figures{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.fig{background:var(--surface);padding:18px 20px;display:flex;flex-direction:column;gap:4px}
+.fig .n{font-family:"Barlow Condensed",sans-serif;font-size:38px;font-weight:700;letter-spacing:0;font-variant-numeric:tabular-nums;line-height:1}
+.fig .u{font-size:17px;font-weight:600;color:var(--ink-2)}
+.fig small{font-size:13.5px;color:var(--ink-3);line-height:1.45}
+.fig.hi{border-top:3px solid var(--gold);margin-top:-1px}
+.fig.hi .n{color:var(--gold-deep)}
+
+/* ---------- sections ---------- */
+section{display:flex;flex-direction:column;gap:20px}
+.sec-head{display:flex;flex-direction:column;gap:6px;border-top:3px solid var(--charcoal);padding-top:14px}
+.sec-head .label{color:var(--gold-deep)}
+
+/* ---------- pipeline ---------- */
+.pipe{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px}
+.node{
+  flex:1 1 190px;background:var(--surface);border:1px solid var(--rule);border-top:3px solid var(--gold);
+  padding:14px 16px;display:flex;flex-direction:column;gap:5px;box-shadow:var(--shadow);
+}
+.node .who{font-family:Barlow,sans-serif;font-weight:600;font-size:15px}
+.node .tbl{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--blue);word-break:break-all}
+.node p{font-size:14.5px;color:var(--ink-2);line-height:1.45}
+.arrow{display:flex;align-items:center;color:var(--gold-deep);font-family:Barlow,sans-serif;font-size:22px;font-weight:700}
+
+/* ---------- process flow ---------- */
+.flow{display:flex;flex-direction:column;gap:14px}
+.phase{background:var(--surface);border:1px solid var(--rule);box-shadow:var(--shadow)}
+.ph-head{display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid var(--rule);background:var(--charcoal)}
+.ph-n{
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:17px;line-height:1;
+  width:27px;height:27px;display:flex;align-items:center;justify-content:center;flex:none;
+  background:var(--gold);color:#1C1C1C;border-radius:50%;
+}
+.ph-head h3{flex:1;font-size:19px;color:#FFFFFF;font-family:"Barlow Condensed",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.02em}
+.ph-where{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gold);border:1px solid #4A4E52;padding:3px 8px;white-space:nowrap;
+}
+ol.steps{list-style:none;margin:0;padding:0}
+ol.steps li{
+  display:grid;grid-template-columns:104px 1fr 190px;gap:0 16px;align-items:start;
+  padding:12px 18px;border-bottom:1px solid var(--rule);font-size:14.5px;color:var(--ink-2);line-height:1.5;
+}
+ol.steps li:last-child{border-bottom:none}
+.who-op,.who-app{
+  font-family:Barlow,sans-serif;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  padding:4px 7px;text-align:center;margin-top:1px;
+}
+.who-op{background:var(--gold);color:#1C1C1C}
+.who-app{background:var(--surface-2);color:var(--ink-2);border:1px solid var(--rule)}
+.dt{
+  font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-3);text-align:right;
+  line-height:1.5;padding-top:2px;
+}
+.dt b{color:var(--blue);font-weight:500}
+.fork{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;background:var(--rule);border-top:1px solid var(--rule)}
+.branch{background:var(--surface);padding:13px 18px;display:flex;flex-direction:column;gap:6px}
+.branch p{font-size:14px;color:var(--ink-2);line-height:1.5}
+.br-lab{font-family:Barlow,sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase}
+.branch.si{background:var(--ok-soft)}
+.branch.si .br-lab{color:var(--ok)}
+.branch.no .br-lab{color:var(--gap)}
+.br-note{font-size:12.5px;color:var(--open);font-family:"IBM Plex Mono",monospace;line-height:1.45}
+.branch .dt{text-align:left}
+.ph-note{padding:12px 18px;font-size:14px;color:var(--ink-2);border-top:1px solid var(--rule);background:var(--surface-2);line-height:1.5}
+
+/* ---------- agreed record ---------- */
+.agreed{display:flex;flex-direction:column;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.ag{display:grid;grid-template-columns:136px 1fr;gap:0 20px;background:var(--surface);padding:14px 18px;align-items:start}
+.ag .when{
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:1.5;color:var(--ink-3);
+  padding-top:2px;border-left:3px solid var(--rule-strong);padding-left:11px;
+}
+.ag.key .when{border-left-color:var(--gold);color:var(--gold-deep)}
+.ag .body{display:flex;flex-direction:column;gap:4px}
+.ag .body p{font-size:14.5px;color:var(--ink-2);line-height:1.5}
+
+/* ---------- status list ---------- */
+.status{display:flex;flex-direction:column}
+.item{
+  display:grid;grid-template-columns:108px 1fr;gap:0 20px;
+  padding:13px 0;border-bottom:1px solid var(--rule);align-items:start;
+}
+.item:first-child{border-top:1px solid var(--rule)}
+.item .body{display:flex;flex-direction:column;gap:3px}
+.item .body p{font-size:14.5px;color:var(--ink-2);line-height:1.5}
+.item code,.icode{font-family:"IBM Plex Mono",monospace;font-size:.86em;background:var(--surface-2);padding:1px 5px;color:var(--ink-2)}
+.tag{
+  font-family:Barlow,sans-serif;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  padding:4px 8px;text-align:center;white-space:nowrap;justify-self:start;margin-top:2px;
+}
+.t-ok{background:var(--ok-soft);color:var(--ok)}
+.t-gap{background:var(--gap-soft);color:var(--gap)}
+.t-open{background:var(--open-soft);color:var(--open)}
+.t-ext{background:var(--surface-2);color:var(--ink-2)}
+
+/* ---------- tables ---------- */
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:620px}
+th{
+  font-size:11.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:#FFFFFF;
+  background:var(--charcoal);text-align:left;padding:11px 14px;white-space:nowrap;
+}
+td{padding:11px 14px;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink-2)}
+tbody tr:last-child td{border-bottom:none}
+td.n,th.n{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.wp{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--gold-deep);white-space:nowrap}
+td strong{color:var(--ink);font-weight:600}
+tr.group td{background:var(--surface-2);color:var(--ink);font-family:Barlow,sans-serif;font-weight:600;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;border-left:3px solid var(--gold)}
+tr.sub td{font-size:14px}
+tr.tot td{border-top:3px solid var(--gold);background:var(--surface-2);color:var(--ink);font-weight:600}
+tr.tot td.n{font-size:16px}
+caption{caption-side:bottom;text-align:left;padding:10px 14px;font-size:13px;color:var(--ink-3);border-top:1px solid var(--rule)}
+
+/* ---------- question cards ---------- */
+.qs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.q{background:var(--surface);border:1px solid var(--rule);border-left:4px solid var(--gold);padding:15px 17px;display:flex;flex-direction:column;gap:6px}
+.q h3{font-size:15.5px}
+.q p{font-size:14px;color:var(--ink-2);line-height:1.5}
+
+.risks{display:flex;flex-direction:column;gap:10px}
+.risk{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline;font-size:14.5px;color:var(--ink-2)}
+.risk .lv{font-family:Barlow,sans-serif;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:3px 8px}
+.lv-h{background:var(--gap-soft);color:var(--gap)}
+.lv-m{background:var(--open-soft);color:var(--open)}
+
+footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:6px 24px;font-family:"IBM Plex Mono",monospace}
+
+@media (max-width:720px){
+  ol.steps li{grid-template-columns:1fr;gap:7px}
+  .dt{text-align:left}
+  .who-op,.who-app{justify-self:start}
+}
+@media (max-width:620px){
+  .item,.ag{grid-template-columns:1fr;gap:8px}
+  .arrow{display:none}
+}
+@media print{
+  body{background:#FFFFFF}
+  .phase,.node,.q,.tablewrap{break-inside:avoid}
+  section{break-inside:avoid-page}
+}
+</style>
+
+<div class="wrap">
+
+<div class="brandbar">
+  <img class="logo" src="images/parker_logo.png" alt="Parker Hannifin"
+       onerror="this.hidden=true;document.getElementById('brandFallback').hidden=false">
+  <span class="mark" id="brandFallback" hidden>Parker<em>.</em></span>
+  <span class="unit">Hose Assembly — Process Control System</span>
+  <span class="langsw"><a href="./">IT</a><b>EN</b></span>
+  <span class="doctype">Project status</span>
+</div>
+
+<header class="masthead">
+  <div class="kicker">
+    <span class="label">PCS PokaYoke × Uniflex IPC</span>
+    <span class="label" style="color:var(--ink-3)">Project restart — Parker Hermes</span>
+  </div>
+  <h1>Uniflex crimper integration: where we stand and what is missing</h1>
+  <p class="deck">The project has been on hold since January 2026. The Uniflex machines, with the crimper
+  software completed, are at Hermes but <b>have never been tested against the PCS</b>. On the PCS side the
+  core of the quality control is still missing: reading back the crimping results when the work order is closed.</p>
+  <div class="meta-row">
+    <span><b>Reference doc</b> Parker request Uniflex crimper REV_3 (Jul. 2025)</span>
+    <span><b>Branch</b> UNIFLEX_Integrations</span>
+    <span><b>Last commit</b> 18/07/2025</span>
+  </div>
+</header>
+
+<div class="figures">
+  <div class="fig">
+    <div class="n">2 <span class="u">of 3</span></div>
+    <small>Blocks of the data flow completed: PCS setup → crimper, and the Uniflex software. The results loop back is missing.</small>
+  </div>
+  <div class="fig">
+    <div class="n">0 <span class="u">tests</span></div>
+    <small>No PCS ↔ crimper test session has ever been run: the machines left Veniano before the trial could take place.</small>
+  </div>
+</div>
+
+<section>
+  <div class="sec-head">
+    <span class="label">1 — How the integration works</span>
+    <h2>Data exchange through the database, no direct connection</h2>
+  </div>
+  <p class="prose">PCS and crimper do not talk to each other over serial or network: they exchange data through two
+  tables in the <span class="icode">uniflex</span> schema on SQL Server. What ties the two worlds together is the
+  <span class="icode">ID_JOB</span>, the GUID of the PCS job that the crimper keeps and writes back onto the results.</p>
+
+  <div class="pipe">
+    <div class="node">
+      <span class="label">Sends</span>
+      <span class="who">PCS — job start</span>
+      <span class="tbl">uniflex.Tab_Crimping</span>
+      <p>On WO/PNO/QTY it clears the table for its own <span class="icode">ID_CRIMPER</span> and writes the crimping sequences of the part number.</p>
+    </div>
+    <div class="arrow">→</div>
+    <div class="node">
+      <span class="label">Executes</span>
+      <span class="who">Uniflex crimper</span>
+      <span class="tbl">30 s polling / button</span>
+      <p>Loads the job, proposes the die set, guides the operator through the sequences — one complete piece at a time (one-piece flow).</p>
+    </div>
+    <div class="arrow">→</div>
+    <div class="node">
+      <span class="label">Returns</span>
+      <span class="who">Crimping results</span>
+      <span class="tbl">uniflex.TAB_RESULTS</span>
+      <p>One record per step: peak pressure, <span class="icode">PFM</span> &mdash; <i>Pressure Force Monitoring</i>, the machine's pressure and force control &mdash;, <span class="icode">ManualScrap</span> and <span class="icode">SEQUENCE</span>. Read by Power BI and, at WO closing, by the PCS.</p>
+    </div>
+  </div>
+  <p class="prose" style="font-size:14.5px;color:var(--ink-3)">Cases covered by the specification: <b>A</b> standard
+  assembly with two fittings, <b>B</b> multi-step with sleeves (more than one crimp per side, ordered by
+  <span class="icode">SEQUENCE</span>), <b>C</b> hose with a single crimped fitting.</p>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">2 — The process step by step</span>
+    <h2>How PCS and crimper work together, from job start to WO closing</h2>
+  </div>
+  <p class="prose">Five phases. Each one shows who acts — <b>operator</b> or <b>application</b> — and on which side,
+  with the effect on the data on the right. The phases are numbered because the order is binding: the crimper cannot
+  start before the PCS has written the setup, and the WO cannot be closed before the results have come back.</p>
+
+  <div class="flow">
+
+    <div class="phase">
+      <div class="ph-head"><span class="ph-n">1</span><h3>Job start</h3><span class="ph-where">PCS</span></div>
+      <ol class="steps">
+        <li><span class="who-op">Operator</span><div>Declares <b>Work Order</b>, <b>PNO</b> and the <b>quantity</b> to produce.</div><span class="dt">&mdash;</span></li>
+        <li><span class="who-app">Application</span><div>Looks the PNO up in the crimping master data.</div><span class="dt">reads <b>CrimpingSetup</b></span></li>
+      </ol>
+      <div class="fork">
+        <div class="branch no">
+          <span class="br-lab">PNO not found</span>
+          <p>Warns the operator that the crimping data is missing: the machine will have to be set up by hand.
+          The job goes on without guidance from the crimper.</p>
+          <span class="br-note">To be confirmed with Hermes: the blocking code exists but is disabled.</span>
+        </div>
+        <div class="branch si">
+          <span class="br-lab">PNO found</span>
+          <p>Generates the job <span class="icode">ID_JOB</span> and prepares the crimping rows of the part number,
+          one for each planned operation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="ph-head"><span class="ph-n">2</span><h3>Handing the setup to the machine</h3><span class="ph-where">PCS</span></div>
+      <ol class="steps">
+        <li><span class="who-app">Application</span><div>Deletes the existing records for its own <span class="icode">ID_CRIMPER</span> and writes the sequence of the new job. The table always holds the current job of that cell, and nothing else.</div><span class="dt">writes <b>Tab_Crimping</b></span></li>
+        <li><span class="who-app">Application</span><div>Shows the operator the die set (DIE_SET) and the programmed sequence, so that they can be checked against the machine.</div><span class="dt">&mdash;</span></li>
+      </ol>
+      <p class="ph-note">Every row carries <span class="icode">ID_JOB</span>, <span class="icode">BATCH_QTY</span>
+      and the parameters of the single operation: <span class="icode">SEQUENCE</span>, <span class="icode">DESCRIPTION</span>,
+      <span class="icode">DM_CRIMP</span>, <span class="icode">CORRECTION</span>, <span class="icode">OPENING_DM</span>,
+      <span class="icode">DIE_SET</span>.</p>
+    </div>
+
+    <div class="phase">
+      <div class="ph-head"><span class="ph-n">3</span><h3>Pick-up by the crimper</h3><span class="ph-where">Uniflex</span></div>
+      <ol class="steps">
+        <li><span class="who-app">Application</span><div>Every <b>30 seconds</b> it checks whether the <span class="icode">ID_JOB</span> in the table differs from the one currently loaded: if so, it reconfigures itself.</div><span class="dt">reads <b>Tab_Crimping</b></span></li>
+        <li><span class="who-op">Operator</span><div>Alternatively forces the load straight away with the <b>acquisition button</b> on the panel, without waiting for the automatic cycle.</div><span class="dt">reads <b>Tab_Crimping</b></span></li>
+      </ol>
+    </div>
+
+    <div class="phase">
+      <div class="ph-head"><span class="ph-n">4</span><h3>Crimping the piece</h3><span class="ph-where">Uniflex</span></div>
+      <ol class="steps">
+        <li><span class="who-op">Operator</span><div>Performs the operations in the order shown on screen: one <b>complete piece at a time</b>, from sequence 1 to the last. This is the point agreed on 22/07/2025: no batching by die set.</div><span class="dt">&mdash;</span></li>
+        <li><span class="who-app">Application</span><div>For every operation it records one entry with the <b>peak pressure</b> reached and the sequence number.</div><span class="dt">writes <b>TAB_RESULTS</b></span></li>
+      </ol>
+      <div class="fork">
+        <div class="branch no">
+          <span class="br-lab">Fault detected by Pressure Force Monitoring (PFM)</span>
+          <p>The machine reports the fault to the operator and records it, stating on which sequence it happened.
+          The piece has to be scrapped: <b>the sequence restarts from 1</b> on a new piece.</p>
+          <span class="dt">writes <b>TAB_RESULTS</b> with PFM</span>
+        </div>
+        <div class="branch no">
+          <span class="br-lab">Defect spotted by the operator</span>
+          <p>With the <b>manual scrap</b> button the operator declares the piece in progress as scrap even when the
+          machine has detected nothing. Here too <b>the sequence restarts from 1</b>.</p>
+          <span class="dt">writes <b>TAB_RESULTS</b> with ManualScrap</span>
+        </div>
+        <div class="branch si">
+          <span class="br-lab">Sequence completed</span>
+          <p>The piece is good: the on-screen counters move up and the next piece begins. Once the planned quantity is
+          reached the job-completed message appears, but the machine <b>does not stop</b>: the operator may carry on
+          and the counters keep rising.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="ph-head"><span class="ph-n">5</span><h3>Closing the Work Order</h3><span class="ph-where">PCS</span></div>
+      <ol class="steps">
+        <li><span class="who-op">Operator</span><div>When crimping is finished, selects <b>Close Workorder</b> on the PCS.</div><span class="dt">&mdash;</span></li>
+        <li><span class="who-app">Application</span><div>Reads back the results for its own <span class="icode">ID_JOB</span> and checks that the number of <b>complete, error-free sequences</b> matches the work order quantity.</div><span class="dt">reads <b>TAB_RESULTS</b></span></li>
+        <li><span class="who-app">Application</span><div>Reports any discrepancy to the operator: missing crimps, pieces with a fault, manual scraps.</div><span class="dt">&mdash;</span></li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">3 — Agreed baseline</span>
+    <h2>What was agreed with Uniflex about the sequences</h2>
+  </div>
+  <p class="prose">How the <span class="icode">Tab_Crimping</span> table is to be interpreted is the only point on which
+  there was a real technical negotiation with Uniflex. The agreements are collected here with their source and date, so
+  they can be recalled in the meeting without going back through the correspondence. The last specification sent out is
+  <span class="icode">Parker request Uniflex_crimper_4.pdf</span> of 01/08/2025, extended verbally by the points of the
+  16/09/2025 meeting.</p>
+
+  <div class="agreed">
+    <div class="ag">
+      <span class="when">Spec REV_3<br/>Jul. 2025</span>
+      <div class="body">
+        <h3>SEQUENCE dictates the order of execution</h3>
+        <p>&ldquo;It represents the sequence in which the crimping operations must be performed&rdquo;. The number is not an
+        identifier: it is the order in which the operator must carry out the crimps on the piece.</p>
+      </div>
+    </div>
+
+    <div class="ag">
+      <span class="when">Norman Stommel<br/>21/07/2025</span>
+      <div class="body">
+        <h3>Uniflex proposes a batch workflow</h3>
+        <p>&ldquo;Our current system is more suited for a mass production workflow. If there is a hose with two different
+        fittings on each side, the workflow would first crimp all Fitting A in the batch... Would this workflow also be
+        interesting or even possible for you?&rdquo;</p>
+      </div>
+    </div>
+
+    <div class="ag key">
+      <span class="when">R. Perrone<br/>22/07/2025</span>
+      <div class="body">
+        <h3>Parker requires one-piece flow</h3>
+        <p>&ldquo;In Parker even in case of mass production we always produce according to 1 piece flow (multistep or
+        single step): produce one complete assembly per time... so the proposed workflow is not suitable for us.&rdquo;
+        The machine must therefore run the whole sequence on one piece and restart from 1 on the next, changing setup at
+        every step instead of grouping by die set.</p>
+      </div>
+    </div>
+
+    <div class="ag">
+      <span class="when">Spec REV_3<br/>Jul. 2025</span>
+      <div class="body">
+        <h3>Three scenarios with sample tables</h3>
+        <p><b>Case A</b> — standard assembly, two fittings: 2 rows.
+        <b>Case B</b> — multi-step with sleeves: 4 rows alternating FITTING / RING, ordered by SEQUENCE.
+        <b>Case C</b> — hose with a single crimped fitting: 1 row.</p>
+      </div>
+    </div>
+
+    <div class="ag">
+      <span class="when">Spec REV_3<br/>Jul. 2025</span>
+      <div class="body">
+        <h3>On PFM the sequence restarts from 1</h3>
+        <p>&ldquo;We expect the next crimping sequence number will return to 1&rdquo;. The piece is abandoned, the counter of
+        pieces with a problem goes up, and the operator starts again from the first step on a new piece.</p>
+      </div>
+    </div>
+
+    <div class="ag">
+      <span class="when">Spec REV_3<br/>Jul. 2025</span>
+      <div class="body">
+        <h3>Counters and on-screen messages</h3>
+        <p>Good pieces, pieces with a problem and total steps; expected values <span class="icode">BATCH_QTY</span> and
+        <span class="icode">MAX(SEQUENCE) &times; BATCH_QTY</span>. Job-completed message when the good pieces reach
+        BATCH_QTY; piece-to-be-checked message on PFM.</p>
+      </div>
+    </div>
+
+    <div class="ag key">
+      <span class="when">R. Perrone<br/>29/07/2025</span>
+      <div class="body">
+        <h3>The job does not close by itself</h3>
+        <p>&ldquo;We want to leave the chance to the Uniflex crimper to go on crimping and counting, unless the operator
+        decides to conclude the job.&rdquo; Once the quantity is reached the machine warns but does not stop: the counters
+        carry on. This is why the recorded crimps can exceed the nominal expected figure.</p>
+      </div>
+    </div>
+
+    <div class="ag">
+      <span class="when">R. Perrone<br/>01/08 and 16/09/2025</span>
+      <div class="body">
+        <h3>Manual scrap by the operator</h3>
+        <p>First as a digital button on the crimper panel &ldquo;to allow the operator to scrap a piece in case the machine
+        does not see that there is a defect&rdquo;, then as the <span class="icode">ManualScrap</span> column in TAB_RESULTS.</p>
+      </div>
+    </div>
+
+    <div class="ag">
+      <span class="when">Spec REV_3<br/>Jul. 2025</span>
+      <div class="body">
+        <h3>One record for every crimping step</h3>
+        <p>The crimper writes one record per step into TAB_RESULTS with a single pressure value, the peak one, and in case
+        of a problem reports in <span class="icode">SEQUENCE</span> the step on which it occurred.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">4 — Status as of 07/09/2026</span>
+    <h2>What has already been delivered</h2>
+  </div>
+  <div class="status">
+    <div class="item"><span class="tag t-ok">Done</span><div class="body">
+      <h3>Cell configuration</h3>
+      <p>New <span class="icode">Uniflex Devices Setup</span> group with <span class="icode">Uniflex_Crimper_Enabled</span> and <span class="icode">Uniflex_Crimper_ID</span>; crimper indicator in the status bar.</p>
+    </div></div>
+    <div class="item"><span class="tag t-ok">Done</span><div class="body">
+      <h3>Writing the job out to the crimper</h3>
+      <p><span class="icode">SetupUniflexCrimper()</span> in Form02JobInfo: reads <span class="icode">CrimpingSetup</span> for the PNO, clears and rewrites <span class="icode">Tab_Crimping</span> with ID_JOB and BATCH_QTY, with on-screen messages and the outcome written to the log.</p>
+    </div></div>
+    <div class="item"><span class="tag t-ok">Done</span><div class="body">
+      <h3>Crimping summary for the operator</h3>
+      <p>Panel in Form05Cutting with the die set (DIE_SET) and the programmed sequences of the piece being produced.</p>
+    </div></div>
+    <div class="item"><span class="tag t-ok">Done</span><div class="body">
+      <h3>Data model and DB script</h3>
+      <p>EF entities <span class="icode">Tab_Crimping</span> and <span class="icode">CrimpingSetup</span>; creation script for the <span class="icode">uniflex</span> schema, handed over to Uniflex on 27/10/2025 and used by them as a development reference.</p>
+    </div></div>
+    <div class="item"><span class="tag t-ext">Uniflex</span><div class="body">
+      <h3>Crimper software</h3>
+      <p>Declared complete and tested in house by Uniflex; the machines have been shipped to Hermes. Counters for good pieces / pieces with a problem / total steps, job-completed and PFM messages, manual scrap button: all to be verified in the field.</p>
+    </div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">5 — Status as of 07/09/2026</span>
+    <h2>What is missing to close the project</h2>
+  </div>
+  <div class="status">
+    <div class="item"><span class="tag t-gap">Critical</span><div class="body">
+      <h3>Verifying the crimps when the WO is closed</h3>
+      <p>This is the blocking requirement of the agreed simulation: when the work order is closed the PCS must read
+      <span class="icode">TAB_RESULTS</span> for the ID_JOB, compare the number of crimps performed against
+      MAX(SEQUENCE) × BATCH_QTY and check that no PFM occurred. Today <b>the TAB_RESULTS entity does not exist in the
+      code</b>: it has to be added to the EF model, and the whole checking, blocking and messaging logic has to be written.</p>
+    </div></div>
+    <div class="item"><span class="tag t-gap">Critical</span><div class="body">
+      <h3>PCS ↔ crimper integration test</h3>
+      <p>Never carried out. The machines left Veniano before the trial. The three cases (A, B, C), the counters, the PFM
+      and manual scrap handling and the consistency of the data across the two tables all need to be verified.</p>
+    </div></div>
+    <div class="item"><span class="tag t-gap">Critical</span><div class="body">
+      <h3>The <span class="icode" style="font-size:.9em">uniflex</span> schema on the Hermes database</h3>
+      <p>It only exists on PCS_PokaYoke_Veniano. On Hermes the schema has to be created, the
+      <span class="icode">productComponents</span> migration applied and the crimping master data loaded.</p>
+    </div></div>
+    <div class="item"><span class="tag t-gap">Critical</span><div class="body">
+      <h3>Code alignment</h3>
+      <p>The Uniflex branch has been frozen since July 2025 and was never merged into master, while the features requested
+      by Hermes (user management, alternative part codes, second diameter, multiple operator) were developed afterwards,
+      up to January 2026. A merge with conflict resolution and a regression pass are needed.</p>
+    </div></div>
+    <div class="item"><span class="tag t-open">New</span><div class="body">
+      <h3>Web portal for master data management</h3>
+      <p>Today <span class="icode">CrimpingSetup</span> can only be populated through Excel/SQL by the developer.
+      Proposal: a web application with Active Directory login and two groups (read-only / read-write), CRUD on the
+      configuration tables that can currently be edited only from the PCS or the database, plus Excel export and
+      re-import for bulk maintenance.</p>
+    </div></div>
+    <div class="item"><span class="tag t-open">To be decided</span><div class="body">
+      <h3>Two behaviours never formalised</h3>
+      <p>What to do when a PNO has no crimping data, and how strict the block at WO closing must be. There is no
+      documentation on either: these are the two points to settle in the meeting (see section 6).</p>
+    </div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">6 — To be settled in the meeting</span>
+    <h2>Open questions for Hermes</h2>
+  </div>
+  <div class="qs">
+    <div class="q">
+      <h3>Block at WO closing: how strict?</h3>
+      <p>If crimps are missing or a PFM occurred, is the WO blocked outright, or can the shift leader force the closing with a recorded reason?</p>
+    </div>
+    <div class="q">
+      <h3>How to count manual scraps</h3>
+      <p>Should pieces scrapped by the operator on the crimper (<span class="icode">ManualScrap</span>) be deducted from the expected quantity, or counted as missing pieces?</p>
+    </div>
+    <div class="q">
+      <h3>PNO without crimping data</h3>
+      <p>Does the job stop at the start, or does it run with a warning and leave the crimper in manual mode? Today the blocking code exists but is disabled.</p>
+    </div>
+    <div class="q">
+      <h3>PCS version running at Hermes</h3>
+      <p>To be checked in order to size the merge: which version is in production today, and on which cells the crimper has to be enabled.</p>
+    </div>
+    <div class="q">
+      <h3>Crimping master data: who owns it</h3>
+      <p>Who holds the diameter, correction, opening and die set figures for the Hermes part numbers, and in what format they can be handed over for the initial load.</p>
+    </div>
+    <div class="q">
+      <h3>Portal: scope and environment</h3>
+      <p>Which tables should be editable, which Active Directory groups to use for the two profiles, and on which server to publish.</p>
+    </div>
+    <div class="q">
+      <h3>Uniflex availability for the tests</h3>
+      <p>Norman Stommel needs to be present, at least remotely, during the trials: their software has never been put to the test against the real PCS.</p>
+    </div>
+    <div class="q">
+      <h3>Points left open from the 16/09/2025 meeting</h3>
+      <p>Parker logo on the crimper screen and the update procedure for the machine software: never confirmed in writing by Uniflex.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">7 — Risks</span>
+    <h2>What could push the schedule out</h2>
+  </div>
+  <div class="risks">
+    <div class="risk"><span class="lv lv-h">High</span><div>The Uniflex software has never been tried against the PCS. If differences in the interpretation of the tables come up, fixing them is on Uniflex and the timing is out of our hands.</div></div>
+    <div class="risk"><span class="lv lv-h">High</span><div>Quality and completeness of the crimping master data for the Hermes part numbers: if the figures have to be rebuilt by hand, the initial load becomes a substantial task.</div></div>
+    <div class="risk"><span class="lv lv-m">Medium</span><div>Merging a branch frozen for eight months onto a trunk that has moved on in the meantime: conflicts are expected on the data model and on the two forms that were touched.</div></div>
+    <div class="risk"><span class="lv lv-m">Medium</span><div>Web portal: the proposal assumes Active Directory authentication is already available and that there is a server to publish on. Local IT constraints may add work.</div></div>
+  </div>
+</section>
+
+<footer>
+  <span>Antonio Raso — author of the PCS PokaYoke software</span>
+  <span>Preparatory document · 07/09/2026</span>
+</footer>
+
+</div>
