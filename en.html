@@ -676,7 +676,38 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
 
 <section>
   <div class="sec-head">
-    <span class="label">5 — Agreed baseline</span>
+    <span class="label">5 — Open points</span>
+    <h2>Decisions and information still to be gathered</h2>
+  </div>
+  <div class="qs">
+    <div class="q">
+      <h3>Block at WO closing: how strict?</h3>
+      <p>If crimps are missing or a PFM occurred, is the WO blocked outright, or can the shift leader force the closing with a recorded reason?</p>
+    </div>
+    <div class="q">
+      <h3>PNO without crimping data</h3>
+      <p>Does the job stop at the start, or does it run with a warning and leave the crimper in manual mode? Today the blocking code exists but is disabled.</p>
+    </div>
+    <div class="q">
+      <h3>Crimping master data: who owns it</h3>
+      <p>Who holds the diameter, correction, opening and die set figures for the Hermes part numbers, and in what format they can be handed over for the initial load.</p>
+    </div>
+    <div class="q">
+      <h3>Crimper ID: where it is set on the machine</h3>
+      <p>The PCS writes its rows tagged with the ID declared in its own configuration, and the crimper has to read the
+      ones carrying that same ID. How and where that number is set on the machine panel, and who sets it at
+      commissioning, was never defined either in the specifications or in the correspondence.</p>
+    </div>
+    <div class="q">
+      <h3>Uniflex documentation</h3>
+      <p>A document describing the software changes, the implemented behaviours and the customisations made at our request should have been delivered together with the machines. Did it reach Hermes? It is the reference we need for the tests.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">6 — Agreed baseline</span>
     <h2>What was agreed with Uniflex about the sequences</h2>
   </div>
   <p class="prose">A summary of the points agreed with Uniflex through the specifications sent out and the exchange of
@@ -768,37 +799,6 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
         <p>The crimper writes one record per step into TAB_RESULTS with a single pressure value, the peak one, and in case
         of a problem reports in <span class="icode">SEQUENCE</span> the step on which it occurred.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="sec-head">
-    <span class="label">6 — Open points</span>
-    <h2>Decisions and information still to be gathered</h2>
-  </div>
-  <div class="qs">
-    <div class="q">
-      <h3>Block at WO closing: how strict?</h3>
-      <p>If crimps are missing or a PFM occurred, is the WO blocked outright, or can the shift leader force the closing with a recorded reason?</p>
-    </div>
-    <div class="q">
-      <h3>PNO without crimping data</h3>
-      <p>Does the job stop at the start, or does it run with a warning and leave the crimper in manual mode? Today the blocking code exists but is disabled.</p>
-    </div>
-    <div class="q">
-      <h3>Crimping master data: who owns it</h3>
-      <p>Who holds the diameter, correction, opening and die set figures for the Hermes part numbers, and in what format they can be handed over for the initial load.</p>
-    </div>
-    <div class="q">
-      <h3>Crimper ID: where it is set on the machine</h3>
-      <p>The PCS writes its rows tagged with the ID declared in its own configuration, and the crimper has to read the
-      ones carrying that same ID. How and where that number is set on the machine panel, and who sets it at
-      commissioning, was never defined either in the specifications or in the correspondence.</p>
-    </div>
-    <div class="q">
-      <h3>Uniflex documentation</h3>
-      <p>A document describing the software changes, the implemented behaviours and the customisations made at our request should have been delivered together with the machines. Did it reach Hermes? It is the reference we need for the tests.</p>
     </div>
   </div>
 </section>
