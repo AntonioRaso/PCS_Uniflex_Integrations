@@ -294,6 +294,15 @@ figure.shot figcaption b{color:var(--ink-2);font-weight:600}
 .t-ext{background:var(--surface-2);color:var(--ink-2)}
 
 /* ---------- tables ---------- */
+.item .kind{
+  margin-top:9px;padding-top:8px;border-top:1px dashed var(--rule);
+  font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-2);line-height:1.5;
+}
+.item .kind span{
+  font-family:Barlow,sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-3);margin-right:8px;
+}
+
 .tablewrap{overflow-x:auto;border:1px solid var(--rule);background:var(--surface)}
 table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:620px}
 th{
@@ -640,16 +649,19 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       <p>Alla chiusura del work order il PCS deve rileggere i risultati del proprio job e confrontare i pezzi crimpati
       senza errori con la quantità attesa. Oggi <b>l'entità TAB_RESULTS non esiste nel codice</b>: va aggiunta al
       modello dati e va scritta tutta la logica di controllo, blocco e messaggistica.</p>
-    </div></div>
-    <div class="item"><span class="tag t-gap">Critico</span><div class="body">
-      <h3>Test di integrazione PCS ↔ crimpatrice</h3>
-      <p>Mai eseguito. Le macchine sono partite da Veniano prima della prova. Vanno verificati i tre casi (A, B, C),
-      i contatori, la gestione PFM e scarto manuale, e la coerenza dei dati nelle due tabelle.</p>
+      <p class="kind"><span>Intervento</span>Scrittura del codice &middot; definizione delle regole di confronto e di comportamento</p>
     </div></div>
     <div class="item"><span class="tag t-gap">Critico</span><div class="body">
       <h3>Schema <span class="icode" style="font-size:.9em">uniflex</span> sul database di Hermes</h3>
       <p>Esiste solo sul database di Veniano. Su Hermes va migrato lo schema con tutte le strutture oggi mancanti,
       e va caricata l'anagrafica di crimpatura.</p>
+      <p class="kind"><span>Intervento</span>Allineamento delle strutture del database</p>
+    </div></div>
+    <div class="item"><span class="tag t-gap">Critico</span><div class="body">
+      <h3>Test di integrazione PCS ↔ crimpatrice</h3>
+      <p>Mai eseguito. Le macchine sono partite da Veniano prima della prova. Vanno verificati i tre casi (A, B, C),
+      i contatori, la gestione PFM e scarto manuale, e la coerenza dei dati nelle due tabelle.</p>
+      <p class="kind"><span>Intervento</span>Test del software, con simulazioni e in produzione reale</p>
     </div></div>
     <div class="item"><span class="tag t-open">Da fare</span><div class="body">
       <h3>Allineamento del codice</h3>
@@ -657,6 +669,7 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       funzionalità realizzate successivamente non sono ancora state rilasciate e vanno anch’esse portate in
       produzione. L’attività consiste quindi nel <b>merge del codice più recente con il nuovo codice di gestione
       Uniflex</b>, seguito dalla verifica dell’insieme prima del rilascio.</p>
+      <p class="kind"><span>Intervento</span>Confronto delle versioni e merge del codice</p>
     </div></div>
     <div class="item"><span class="tag t-open">Nuovo</span><div class="body">
       <h3>Pagina web per la gestione dei dati</h3>
@@ -672,11 +685,13 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
         <li><b>Indipendente dalla produzione.</b> Gli aggiornamenti si fanno in qualsiasi momento, anche mentre
         le celle stanno lavorando, e senza dover passare dallo sviluppatore.</li>
       </ul>
+      <p class="kind"><span>Intervento</span>Scrittura del codice &middot; definizione e configurazione dell&rsquo;hosting</p>
     </div></div>
     <div class="item"><span class="tag t-open">Da decidere</span><div class="body">
       <h3>Due comportamenti mai formalizzati</h3>
       <p>Cosa fare quando il PNO non ha dati di crimpatura, e quanto deve essere rigido il blocco alla chiusura del WO.
       Non c'è documentazione: sono i due punti da chiudere nell'incontro (vedi sezione 6).</p>
+      <p class="kind"><span>Intervento</span>Definizione delle regole di comportamento</p>
     </div></div>
   </div>
 </section>

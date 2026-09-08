@@ -294,6 +294,15 @@ figure.shot figcaption b{color:var(--ink-2);font-weight:600}
 .t-ext{background:var(--surface-2);color:var(--ink-2)}
 
 /* ---------- tables ---------- */
+.item .kind{
+  margin-top:9px;padding-top:8px;border-top:1px dashed var(--rule);
+  font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-2);line-height:1.5;
+}
+.item .kind span{
+  font-family:Barlow,sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-3);margin-right:8px;
+}
+
 .tablewrap{overflow-x:auto;border:1px solid var(--rule);background:var(--surface)}
 table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:620px}
 th{
@@ -641,16 +650,19 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       <p>When the work order is closed the PCS must read back the results of its own job and compare the pieces crimped
       without errors against the expected quantity. Today <b>the TAB_RESULTS entity does not exist in the code</b>: it has
       to be added to the data model, and the whole checking, blocking and messaging logic has to be written.</p>
-    </div></div>
-    <div class="item"><span class="tag t-gap">Critical</span><div class="body">
-      <h3>PCS ↔ crimper integration test</h3>
-      <p>Never carried out. The machines left Veniano before the trial. The three cases (A, B, C), the counters, the PFM
-      and manual scrap handling and the consistency of the data across the two tables all need to be verified.</p>
+      <p class="kind"><span>Activity</span>Code development &middot; definition of the comparison and behaviour rules</p>
     </div></div>
     <div class="item"><span class="tag t-gap">Critical</span><div class="body">
       <h3>The <span class="icode" style="font-size:.9em">uniflex</span> schema on the Hermes database</h3>
       <p>It only exists on the Veniano database. On Hermes the schema has to be migrated with all the structures that are
       missing today, and the crimping master data has to be loaded.</p>
+      <p class="kind"><span>Activity</span>Database structure alignment</p>
+    </div></div>
+    <div class="item"><span class="tag t-gap">Critical</span><div class="body">
+      <h3>PCS ↔ crimper integration test</h3>
+      <p>Never carried out. The machines left Veniano before the trial. The three cases (A, B, C), the counters, the PFM
+      and manual scrap handling and the consistency of the data across the two tables all need to be verified.</p>
+      <p class="kind"><span>Activity</span>Software testing, simulated and in live production</p>
     </div></div>
     <div class="item"><span class="tag t-open">To do</span><div class="body">
       <h3>Code alignment</h3>
@@ -658,6 +670,7 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       afterwards have not been released yet and are to be brought into production as well. The activity is therefore
       the <b>merge of the most recent code with the new Uniflex code</b>, followed by verification of the whole
       before release.</p>
+      <p class="kind"><span>Activity</span>Version comparison and code merge</p>
     </div></div>
     <div class="item"><span class="tag t-open">New</span><div class="body">
       <h3>Web page for data management</h3>
@@ -672,11 +685,13 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
         <li><b>Independent from production.</b> Updates can be made at any time, even while the cells are
         running, and without having to go through the developer.</li>
       </ul>
+      <p class="kind"><span>Activity</span>Code development &middot; hosting definition and configuration</p>
     </div></div>
     <div class="item"><span class="tag t-open">To be decided</span><div class="body">
       <h3>Two behaviours never formalised</h3>
       <p>What to do when a PNO has no crimping data, and how strict the block at WO closing must be. There is no
       documentation on either: these are two decisions still to be taken.</p>
+      <p class="kind"><span>Activity</span>Definition of the behaviour rules</p>
     </div></div>
   </div>
 </section>
