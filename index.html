@@ -233,6 +233,7 @@ ol.steps li:last-child{border-bottom:none}
   display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;
   padding:15px 18px;border-top:1px solid var(--rule);background:var(--surface-2);
 }
+.shots.one{grid-template-columns:minmax(0,300px)}
 figure.shot{margin:0;display:flex;flex-direction:column;gap:8px}
 figure.shot a{display:block;border:1px solid var(--rule-strong);background:#FFFFFF;padding:6px;line-height:0}
 figure.shot a:hover{border-color:var(--gold-deep)}
@@ -425,7 +426,7 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       <ol class="steps">
         <li><span class="who-app">Configurazione</span><div>Nel form di configurazione del PCS si abilita la funzione Uniflex e si dichiara il <b>numero identificativo della crimpatrice</b> collegata alla cella. Ogni cella è abilitata all&rsquo;uso di una sola macchina: quel numero è l&rsquo;<span class="icode">ID_CRIMPER</span> con cui il PCS filtrerà e riscriverà le proprie righe nella tabella di scambio.</div><span class="dt">&mdash;</span></li>
       </ol>
-      <div class="shots">
+      <div class="shots one">
       <figure class="shot">
         <a href="images/pcs-config-uniflex.png" target="_blank" rel="noopener"><img src="images/pcs-config-uniflex.png" alt="PCS, configurazione cella, gruppo Uniflex Devices Setup" loading="lazy"></a>
         <figcaption><b>Configurazione della cella.</b> Il gruppo <i>Uniflex Devices Setup</i>: funzione abilitata e crimpatrice numero 4 assegnata a questa cella.</figcaption>
