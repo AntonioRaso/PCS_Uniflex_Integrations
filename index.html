@@ -254,6 +254,9 @@ figure.shot img{width:100%;height:auto;display:block}
 figure.shot figcaption{font-size:12.5px;color:var(--ink-3);line-height:1.45}
 figure.shot figcaption b{color:var(--ink-2);font-weight:600}
 .item figure.shot{max-width:440px;margin-top:9px}
+.item figure.shot.wide{max-width:660px}
+.item figure.shot.small{max-width:210px}
+
 .ph-pre{
   padding:12px 18px;border-bottom:1px solid var(--rule);border-left:4px solid var(--gold);
   font-size:14px;color:var(--ink-2);line-height:1.5;background:var(--surface-2);
@@ -365,11 +368,10 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <span class="label" style="color:var(--ink-3)">Riavvio progetto — Parker Hermes</span>
   </div>
   <h1>Integrazione crimpatrici Uniflex: dove siamo e cosa manca</h1>
-  <p class="deck">Il progetto è fermo da gennaio 2026. Le macchine Uniflex, con il software crimpatrice
-  completato, sono ad Hermes ma <b>non sono mai state testate contro il PCS</b>. Lato PCS manca il pezzo
-  centrale del controllo qualità: la lettura dei risultati di crimpatura alla chiusura del work order.</p>
+  <p class="deck">Le macchine Uniflex, con il software crimpatrice completato, sono ad Hermes ma
+  <b>non sono mai state testate contro il PCS</b>. Lato PCS manca il controllo che chiude il ciclo: il confronto
+  tra i pezzi crimpati senza errori e i pezzi attesi, alla chiusura del work order.</p>
   <div class="meta-row">
-    <span><b>Doc di riferimento</b> Parker request Uniflex crimper REV_3 (lug. 2025)</span>
     <span><b>Branch</b> UNIFLEX_Integrations</span>
     <span><b>Ultimo commit</b> 18/07/2025</span>
   </div>
@@ -393,7 +395,8 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
   </div>
   <p class="prose">PCS e crimpatrice non si parlano via seriale o rete: si scambiano dati attraverso due
   tabelle sullo schema <span class="icode">uniflex</span> di SQL Server. Il legame tra i due mondi è
-  l'<span class="icode">ID_JOB</span>, il GUID del job PCS che la crimpatrice conserva e riscrive sui risultati.</p>
+  l'<span class="icode">ID_JOB</span>: un identificativo univoco (GUID) che il PCS genera per ogni job e che la
+  crimpatrice conserva e riscrive sui risultati.</p>
 
   <div class="pipe">
     <div class="node">
@@ -455,10 +458,9 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <span class="label">2 — Il processo passo per passo</span>
     <h2>Come lavorano insieme PCS e crimpatrice, dal lancio del job alla chiusura del WO</h2>
   </div>
-  <p class="prose">Una fase preliminare, che si esegue una volta sola alla messa in servizio della cella, e cinque fasi di produzione. In ciascuna è indicato chi agisce — <b>operatore</b> o <b>applicativo</b> —
-  e su quale lato, e a destra l&rsquo;effetto sui dati. Le fasi sono numerate perché l&rsquo;ordine è vincolante:
-  la crimpatrice non può partire prima che il PCS abbia scritto il setup, e il WO non si chiude prima che i
-  risultati siano tornati indietro.</p>
+  <p class="prose">Una fase preliminare di setup, in cui il PCS viene collegato a una crimpatrice specifica tramite
+  il suo ID, e cinque fasi di produzione numerate secondo l&rsquo;ordine in cui si susseguono. Di ogni passo è
+  indicato chi agisce, <b>operatore</b> o <b>applicativo</b>, e a destra l&rsquo;effetto sui dati.</p>
 
   <div class="flow">
 
@@ -535,7 +537,7 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <div class="phase">
       <div class="ph-head"><span class="ph-n">4</span><h3>Crimpatura del pezzo</h3><span class="ph-where">Uniflex</span></div>
       <ol class="steps">
-        <li><span class="who-op">Operatore</span><div>Esegue le operazioni nell&rsquo;ordine indicato a monitor: un <b>pezzo completo per volta</b>, dalla sequenza 1 all&rsquo;ultima. È il punto concordato il 22/07/2025: niente lavorazione a lotti per matrice.</div><span class="dt">&mdash;</span></li>
+        <li><span class="who-op">Operatore</span><div>Esegue le operazioni nell&rsquo;ordine indicato a monitor: un <b>pezzo completo per volta</b>, dalla sequenza 1 all&rsquo;ultima.</div><span class="dt">&mdash;</span></li>
         <li><span class="who-app">Applicativo</span><div>Per ogni operazione registra un record con la <b>pressione massima</b> raggiunta e il numero di sequenza.</div><span class="dt">scrive <b>TAB_RESULTS</b></span></li>
       </ol>
       <div class="fork">
@@ -574,14 +576,100 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
 
 <section>
   <div class="sec-head">
-    <span class="label">3 — Base contrattuale</span>
+    <span class="label">3 — Stato al 07/09/2026</span>
+    <h2>Cosa è già stato consegnato</h2>
+  </div>
+  <div class="status">
+    <div class="item"><span class="tag t-ok">Fatto</span><div class="body">
+      <h3>Configurazione cella</h3>
+      <p>Nuovo gruppo <span class="icode">Uniflex Devices Setup</span> con <span class="icode">Uniflex_Crimper_Enabled</span> e <span class="icode">Uniflex_Crimper_ID</span>; indicatore crimpatrice nella status bar.</p>
+      <figure class="shot">
+        <a href="images/pcs-config-uniflex.png" target="_blank" rel="noopener"><img src="images/pcs-config-uniflex.png" alt="" loading="lazy"></a>
+        <figcaption><b>Configurazione della cella.</b> Funzione Uniflex abilitata e ID crimpatrice dichiarato.</figcaption>
+      </figure>
+    </div></div>
+    <div class="item"><span class="tag t-ok">Fatto</span><div class="body">
+      <h3>Scrittura del job verso la crimpatrice</h3>
+      <p><span class="icode">SetupUniflexCrimper()</span> in Form02JobInfo: legge <span class="icode">CrimpingSetup</span> per il PNO, svuota e riscrive <span class="icode">Tab_Crimping</span> con ID_JOB e BATCH_QTY, con messaggi a video ed esito a log.</p>
+      <figure class="shot wide">
+        <a href="images/db-exchange-data.png" target="_blank" rel="noopener"><img src="images/db-exchange-data.png" alt="" loading="lazy"></a>
+        <figcaption><b>Job scritto a database.</b> La riga di <span class="icode">Tab_Crimping</span> con ID_JOB, crimpatrice, quantità e parametri copiati dall'anagrafica.</figcaption>
+      </figure>
+    </div></div>
+    <div class="item"><span class="tag t-ok">Fatto</span><div class="body">
+      <h3>Riepilogo crimpature all'operatore</h3>
+      <p>Pannello in Form05Cutting con matrice (DIE_SET) e sequenze programmate del pezzo in lavorazione.</p>
+      <figure class="shot">
+        <a href="images/pcs-crimping-summary.png" target="_blank" rel="noopener"><img src="images/pcs-crimping-summary.png" alt="" loading="lazy"></a>
+        <figcaption><b>Riepilogo a video.</b> Matrice e sequenza programmata del pezzo, con la crimpatrice indicata nella status bar.</figcaption>
+      </figure>
+    </div></div>
+    <div class="item"><span class="tag t-ok">Fatto</span><div class="body">
+      <h3>Modello dati e script DB</h3>
+      <p>Entità EF <span class="icode">Tab_Crimping</span> e <span class="icode">CrimpingSetup</span>; script di creazione dello schema <span class="icode">uniflex</span>, consegnato a Uniflex il 27/10/2025 e usato da loro come riferimento di sviluppo.</p>
+      <figure class="shot small">
+        <a href="images/db-uniflex-schema.png" target="_blank" rel="noopener"><img src="images/db-uniflex-schema.png" alt="" loading="lazy"></a>
+        <figcaption><b>Schema uniflex a database.</b> Le tabelle di scambio create dallo script consegnato a Uniflex.</figcaption>
+      </figure>
+    </div></div>
+    <div class="item"><span class="tag t-ext">Uniflex</span><div class="body">
+      <h3>Software crimpatrice</h3>
+      <p>Dichiarato completo e testato in casa Uniflex; le macchine sono state spedite ad Hermes. Contatori pezzi buoni / pezzi con problema / step totali, messaggi di job completato e di PFM, pulsante di scarto manuale: da verificare sul campo.</p>
+    </div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">4 — Stato al 07/09/2026</span>
+    <h2>Cosa manca per chiudere</h2>
+  </div>
+  <div class="status">
+    <div class="item"><span class="tag t-gap">Critico</span><div class="body">
+      <h3>Verifica delle crimpature alla chiusura del WO</h3>
+      <p>Alla chiusura del work order il PCS deve rileggere i risultati del proprio job e confrontare i pezzi crimpati
+      senza errori con la quantità attesa. Oggi <b>l'entità TAB_RESULTS non esiste nel codice</b>: va aggiunta al
+      modello dati e va scritta tutta la logica di controllo, blocco e messaggistica.</p>
+    </div></div>
+    <div class="item"><span class="tag t-gap">Critico</span><div class="body">
+      <h3>Test di integrazione PCS ↔ crimpatrice</h3>
+      <p>Mai eseguito. Le macchine sono partite da Veniano prima della prova. Vanno verificati i tre casi (A, B, C),
+      i contatori, la gestione PFM e scarto manuale, e la coerenza dei dati nelle due tabelle.</p>
+    </div></div>
+    <div class="item"><span class="tag t-gap">Critico</span><div class="body">
+      <h3>Schema <span class="icode" style="font-size:.9em">uniflex</span> sul database di Hermes</h3>
+      <p>Esiste solo sul database di Veniano. Su Hermes va migrato lo schema con tutte le strutture oggi mancanti,
+      e va caricata l'anagrafica di crimpatura.</p>
+    </div></div>
+    <div class="item"><span class="tag t-open">Da chiarire</span><div class="body">
+      <h3>Allineamento del codice</h3>
+      <p>Le funzioni Uniflex sono state sviluppate sulla stessa versione oggi in esercizio ad Hermes, quindi
+      l’integrazione è lineare. Da chiarire se si attendono anche le funzionalità sviluppate successivamente e
+      non ancora rilasciate: gestione utenti, codici alternativi, secondo diametro, operatore multiplo.</p>
+    </div></div>
+    <div class="item"><span class="tag t-open">Nuovo</span><div class="body">
+      <h3>Pagina web per la gestione dei dati</h3>
+      <p>Oggi l'anagrafica di crimpatura si carica solo da file, a cura dello sviluppatore. Proposta: una pagina web
+      con accesso tramite account aziendale e due livelli di autorizzazione, sola lettura e modifica, dalla quale
+      consultare e aggiornare i dati oggi raggiungibili solo dal PCS o dal database, con esportazione e
+      reimportazione in Excel per gli aggiornamenti massivi.</p>
+    </div></div>
+    <div class="item"><span class="tag t-open">Da decidere</span><div class="body">
+      <h3>Due comportamenti mai formalizzati</h3>
+      <p>Cosa fare quando il PNO non ha dati di crimpatura, e quanto deve essere rigido il blocco alla chiusura del WO.
+      Non c'è documentazione: sono i due punti da chiudere nell'incontro (vedi sezione 6).</p>
+    </div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">5 — Base contrattuale</span>
     <h2>Cosa è stato concordato con Uniflex sulle sequenze</h2>
   </div>
-  <p class="prose">Le regole di interpretazione della tabella <span class="icode">Tab_Crimping</span> sono
-  l'unico punto su cui c'è stato un vero negoziato tecnico con Uniflex. Qui sono raccolte con la fonte e la
-  data, così da poterle richiamare in riunione senza rileggere la corrispondenza. L'ultima specifica
-  trasmessa è <span class="icode">Parker request Uniflex_crimper_4.pdf</span> del 01/08/2025, integrata
-  a voce dai punti del meeting 16/09/2025.</p>
+  <p class="prose">Riepilogo dei punti concordati con Uniflex attraverso le specifiche trasmesse e lo scambio di
+  corrispondenza. Riguardano soprattutto il modo in cui la crimpatrice deve interpretare le sequenze ricevute
+  nella tabella di scambio.</p>
 
   <div class="agreed">
     <div class="ag">
@@ -676,117 +764,17 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
 
 <section>
   <div class="sec-head">
-    <span class="label">4 — Stato al 07/09/2026</span>
-    <h2>Cosa è già stato consegnato</h2>
-  </div>
-  <div class="status">
-    <div class="item"><span class="tag t-ok">Fatto</span><div class="body">
-      <h3>Configurazione cella</h3>
-      <p>Nuovo gruppo <span class="icode">Uniflex Devices Setup</span> con <span class="icode">Uniflex_Crimper_Enabled</span> e <span class="icode">Uniflex_Crimper_ID</span>; indicatore crimpatrice nella status bar.</p>
-      <figure class="shot">
-        <a href="images/pcs-config-uniflex.png" target="_blank" rel="noopener"><img src="images/pcs-config-uniflex.png" alt="" loading="lazy"></a>
-        <figcaption><b>Configurazione della cella.</b> Funzione Uniflex abilitata e ID crimpatrice dichiarato.</figcaption>
-      </figure>
-    </div></div>
-    <div class="item"><span class="tag t-ok">Fatto</span><div class="body">
-      <h3>Scrittura del job verso la crimpatrice</h3>
-      <p><span class="icode">SetupUniflexCrimper()</span> in Form02JobInfo: legge <span class="icode">CrimpingSetup</span> per il PNO, svuota e riscrive <span class="icode">Tab_Crimping</span> con ID_JOB e BATCH_QTY, con messaggi a video ed esito a log.</p>
-      <figure class="shot">
-        <a href="images/db-exchange-data.png" target="_blank" rel="noopener"><img src="images/db-exchange-data.png" alt="" loading="lazy"></a>
-        <figcaption><b>Job scritto a database.</b> La riga di <span class="icode">Tab_Crimping</span> con ID_JOB, crimpatrice, quantità e parametri copiati dall'anagrafica.</figcaption>
-      </figure>
-    </div></div>
-    <div class="item"><span class="tag t-ok">Fatto</span><div class="body">
-      <h3>Riepilogo crimpature all'operatore</h3>
-      <p>Pannello in Form05Cutting con matrice (DIE_SET) e sequenze programmate del pezzo in lavorazione.</p>
-      <figure class="shot">
-        <a href="images/pcs-crimping-summary.png" target="_blank" rel="noopener"><img src="images/pcs-crimping-summary.png" alt="" loading="lazy"></a>
-        <figcaption><b>Riepilogo a video.</b> Matrice e sequenza programmata del pezzo, con la crimpatrice indicata nella status bar.</figcaption>
-      </figure>
-    </div></div>
-    <div class="item"><span class="tag t-ok">Fatto</span><div class="body">
-      <h3>Modello dati e script DB</h3>
-      <p>Entità EF <span class="icode">Tab_Crimping</span> e <span class="icode">CrimpingSetup</span>; script di creazione dello schema <span class="icode">uniflex</span>, consegnato a Uniflex il 27/10/2025 e usato da loro come riferimento di sviluppo.</p>
-      <figure class="shot">
-        <a href="images/db-uniflex-schema.png" target="_blank" rel="noopener"><img src="images/db-uniflex-schema.png" alt="" loading="lazy"></a>
-        <figcaption><b>Schema uniflex a database.</b> Le tabelle di scambio create dallo script consegnato a Uniflex.</figcaption>
-      </figure>
-    </div></div>
-    <div class="item"><span class="tag t-ext">Uniflex</span><div class="body">
-      <h3>Software crimpatrice</h3>
-      <p>Dichiarato completo e testato in casa Uniflex; le macchine sono state spedite ad Hermes. Contatori pezzi buoni / pezzi con problema / step totali, messaggi di job completato e di PFM, pulsante di scarto manuale: da verificare sul campo.</p>
-    </div></div>
-  </div>
-</section>
-
-<section>
-  <div class="sec-head">
-    <span class="label">5 — Stato al 07/09/2026</span>
-    <h2>Cosa manca per chiudere</h2>
-  </div>
-  <div class="status">
-    <div class="item"><span class="tag t-gap">Critico</span><div class="body">
-      <h3>Verifica delle crimpature alla chiusura del WO</h3>
-      <p>È il requisito bloccante della simulazione concordata: alla chiusura del work order il PCS deve leggere
-      <span class="icode">TAB_RESULTS</span> per l'ID_JOB, confrontare il numero di crimpature eseguite con
-      MAX(SEQUENCE) × BATCH_QTY e verificare l'assenza di PFM. Oggi <b>l'entità TAB_RESULTS non esiste nel codice</b>:
-      va aggiunta al modello EF e va scritta tutta la logica di controllo, blocco e messaggistica.</p>
-    </div></div>
-    <div class="item"><span class="tag t-gap">Critico</span><div class="body">
-      <h3>Test di integrazione PCS ↔ crimpatrice</h3>
-      <p>Mai eseguito. Le macchine sono partite da Veniano prima della prova. Vanno verificati i tre casi (A, B, C),
-      i contatori, la gestione PFM e scarto manuale, e la coerenza dei dati nelle due tabelle.</p>
-    </div></div>
-    <div class="item"><span class="tag t-gap">Critico</span><div class="body">
-      <h3>Schema <span class="icode" style="font-size:.9em">uniflex</span> sul database di Hermes</h3>
-      <p>Esiste solo su PCS_PokaYoke_Veniano. Su Hermes va creato lo schema, applicata la migrazione di
-      <span class="icode">productComponents</span> e caricata l'anagrafica di crimpatura.</p>
-    </div></div>
-    <div class="item"><span class="tag t-open">Da chiarire</span><div class="body">
-      <h3>Allineamento del codice</h3>
-      <p>La branch Uniflex parte da <span class="icode">master</span> 1.0.1.14, la stessa versione in esercizio
-      ad Hermes: le due basi coincidono e l’integrazione è lineare. Da chiarire piuttosto se Hermes si aspetta
-      anche le funzionalità sviluppate dopo — gestione utenti, codici alternativi, secondo diametro, operatore
-      multiplo — che vivono su branch 1.0.2.x mai rilasciate e quindi oggi non sono in produzione da loro.</p>
-    </div></div>
-    <div class="item"><span class="tag t-open">Nuovo</span><div class="body">
-      <h3>Portale web per la gestione delle anagrafiche</h3>
-      <p>Oggi <span class="icode">CrimpingSetup</span> si popola solo via Excel/SQL da parte dello sviluppatore.
-      Proposta: applicazione web con login Active Directory e due gruppi (sola lettura / lettura-scrittura), CRUD
-      sulle tabelle di configurazione oggi editabili solo dal PCS o dal DB, ed esportazione/reimportazione Excel
-      per la gestione massiva.</p>
-    </div></div>
-    <div class="item"><span class="tag t-open">Da decidere</span><div class="body">
-      <h3>Due comportamenti mai formalizzati</h3>
-      <p>Cosa fare quando il PNO non ha dati di crimpatura, e quanto deve essere rigido il blocco alla chiusura del WO.
-      Non c'è documentazione: sono i due punti da chiudere nell'incontro (vedi sezione 6).</p>
-    </div></div>
-  </div>
-</section>
-
-<section>
-  <div class="sec-head">
-    <span class="label">6 — Da chiudere nell'incontro</span>
-    <h2>Domande aperte per Hermes</h2>
+    <span class="label">6 — Punti aperti</span>
+    <h2>Decisioni e informazioni ancora da acquisire</h2>
   </div>
   <div class="qs">
     <div class="q">
       <h3>Blocco alla chiusura del WO: quanto rigido?</h3>
       <p>Se mancano crimpature o ci sono PFM, il WO resta bloccato in assoluto, oppure il capoturno può forzare la chiusura con motivazione registrata?</p>
     </div>
-    <div class="q done">
-      <h3>Come contare gli scarti manuali</h3>
-      <p>I pezzi scartati dall'operatore sulla crimpatrice (<span class="icode">ManualScrap</span>) vanno scomputati dalla quantità attesa o considerati pezzi mancanti?</p>
-      <p class="ans"><span>Risposto</span> Stesso comportamento del PFM: il pezzo è scarto a tutti gli effetti, la sequenza riparte da 1 e non concorre alla quantità buona.</p>
-    </div>
     <div class="q">
       <h3>PNO senza dati di crimpatura</h3>
       <p>Il job si blocca in partenza, oppure parte con un avviso e la crimpatrice resta in modalità manuale? Oggi il codice di blocco esiste ma è disattivato.</p>
-    </div>
-    <div class="q done">
-      <h3>Versione PCS in esercizio ad Hermes</h3>
-      <p>Da verificare per dimensionare il merge: quale versione gira oggi in produzione e su quali celle va attivata la crimpatrice.</p>
-      <p class="ans"><span>Confermato</span> Versione <b>1.0.1.14</b>, confermata da Hermes e riscontrata nei sorgenti: è la versione di <span class="icode">master</span>, la stessa da cui parte la branch Uniflex. Le due basi coincidono. Resta da stabilire su quali celle attivare la crimpatrice.</p>
     </div>
     <div class="q">
       <h3>Anagrafica crimpature: chi la mantiene</h3>

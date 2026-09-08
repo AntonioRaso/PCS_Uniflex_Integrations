@@ -254,6 +254,9 @@ figure.shot img{width:100%;height:auto;display:block}
 figure.shot figcaption{font-size:12.5px;color:var(--ink-3);line-height:1.45}
 figure.shot figcaption b{color:var(--ink-2);font-weight:600}
 .item figure.shot{max-width:440px;margin-top:9px}
+.item figure.shot.wide{max-width:660px}
+.item figure.shot.small{max-width:210px}
+
 .ph-pre{
   padding:12px 18px;border-bottom:1px solid var(--rule);border-left:4px solid var(--gold);
   font-size:14px;color:var(--ink-2);line-height:1.5;background:var(--surface-2);
@@ -365,11 +368,10 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <span class="label" style="color:var(--ink-3)">Project restart — Parker Hermes</span>
   </div>
   <h1>Uniflex crimper integration: where we stand and what is missing</h1>
-  <p class="deck">The project has been on hold since January 2026. The Uniflex machines, with the crimper
-  software completed, are at Hermes but <b>have never been tested against the PCS</b>. On the PCS side the
-  core of the quality control is still missing: reading back the crimping results when the work order is closed.</p>
+  <p class="deck">The Uniflex machines, with the crimper software completed, are at Hermes but
+  <b>have never been tested against the PCS</b>. On the PCS side the check that closes the loop is still missing:
+  comparing the pieces crimped without errors against the pieces expected, when the work order is closed.</p>
   <div class="meta-row">
-    <span><b>Reference doc</b> Parker request Uniflex crimper REV_3 (Jul. 2025)</span>
     <span><b>Branch</b> UNIFLEX_Integrations</span>
     <span><b>Last commit</b> 18/07/2025</span>
   </div>
@@ -393,7 +395,8 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
   </div>
   <p class="prose">PCS and crimper do not talk to each other over serial or network: they exchange data through two
   tables in the <span class="icode">uniflex</span> schema on SQL Server. What ties the two worlds together is the
-  <span class="icode">ID_JOB</span>, the GUID of the PCS job that the crimper keeps and writes back onto the results.</p>
+  <span class="icode">ID_JOB</span>: a unique identifier (GUID) the PCS generates for every job, which the crimper
+  keeps and writes back onto the results.</p>
 
   <div class="pipe">
     <div class="node">
@@ -456,9 +459,9 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <span class="label">2 — The process step by step</span>
     <h2>How PCS and crimper work together, from job start to WO closing</h2>
   </div>
-  <p class="prose">One preliminary phase, carried out once when the cell is commissioned, and five production phases. Each one shows who acts — <b>operator</b> or <b>application</b> — and on which side,
-  with the effect on the data on the right. The phases are numbered because the order is binding: the crimper cannot
-  start before the PCS has written the setup, and the WO cannot be closed before the results have come back.</p>
+  <p class="prose">One preliminary setup phase, where the PCS is linked to a specific crimper through its ID, and five
+  production phases numbered in the order they follow one another. Every step shows who acts, <b>operator</b> or
+  <b>application</b>, and on the right the effect on the data.</p>
 
   <div class="flow">
 
@@ -535,7 +538,7 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <div class="phase">
       <div class="ph-head"><span class="ph-n">4</span><h3>Crimping the piece</h3><span class="ph-where">Uniflex</span></div>
       <ol class="steps">
-        <li><span class="who-op">Operator</span><div>Performs the operations in the order shown on screen: one <b>complete piece at a time</b>, from sequence 1 to the last. This is the point agreed on 22/07/2025: no batching by die set.</div><span class="dt">&mdash;</span></li>
+        <li><span class="who-op">Operator</span><div>Performs the operations in the order shown on screen: one <b>complete piece at a time</b>, from sequence 1 to the last.</div><span class="dt">&mdash;</span></li>
         <li><span class="who-app">Application</span><div>For every operation it records one entry with the <b>peak pressure</b> reached and the sequence number.</div><span class="dt">writes <b>TAB_RESULTS</b></span></li>
       </ol>
       <div class="fork">
@@ -574,14 +577,98 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
 
 <section>
   <div class="sec-head">
-    <span class="label">3 — Agreed baseline</span>
+    <span class="label">3 — Status as of 07/09/2026</span>
+    <h2>What has already been delivered</h2>
+  </div>
+  <div class="status">
+    <div class="item"><span class="tag t-ok">Done</span><div class="body">
+      <h3>Cell configuration</h3>
+      <p>New <span class="icode">Uniflex Devices Setup</span> group with <span class="icode">Uniflex_Crimper_Enabled</span> and <span class="icode">Uniflex_Crimper_ID</span>; crimper indicator in the status bar.</p>
+      <figure class="shot">
+        <a href="images/pcs-config-uniflex.png" target="_blank" rel="noopener"><img src="images/pcs-config-uniflex.png" alt="" loading="lazy"></a>
+        <figcaption><b>Cell configuration.</b> Uniflex feature enabled and crimper ID declared.</figcaption>
+      </figure>
+    </div></div>
+    <div class="item"><span class="tag t-ok">Done</span><div class="body">
+      <h3>Writing the job out to the crimper</h3>
+      <p><span class="icode">SetupUniflexCrimper()</span> in Form02JobInfo: reads <span class="icode">CrimpingSetup</span> for the PNO, clears and rewrites <span class="icode">Tab_Crimping</span> with ID_JOB and BATCH_QTY, with on-screen messages and the outcome written to the log.</p>
+      <figure class="shot wide">
+        <a href="images/db-exchange-data.png" target="_blank" rel="noopener"><img src="images/db-exchange-data.png" alt="" loading="lazy"></a>
+        <figcaption><b>Job written to the database.</b> The <span class="icode">Tab_Crimping</span> row with ID_JOB, crimper, quantity and the parameters copied from the master data.</figcaption>
+      </figure>
+    </div></div>
+    <div class="item"><span class="tag t-ok">Done</span><div class="body">
+      <h3>Crimping summary for the operator</h3>
+      <p>Panel in Form05Cutting with the die set (DIE_SET) and the programmed sequences of the piece being produced.</p>
+      <figure class="shot">
+        <a href="images/pcs-crimping-summary.png" target="_blank" rel="noopener"><img src="images/pcs-crimping-summary.png" alt="" loading="lazy"></a>
+        <figcaption><b>On-screen summary.</b> Die set and programmed sequence of the piece, with the crimper shown in the status bar.</figcaption>
+      </figure>
+    </div></div>
+    <div class="item"><span class="tag t-ok">Done</span><div class="body">
+      <h3>Data model and DB script</h3>
+      <p>EF entities <span class="icode">Tab_Crimping</span> and <span class="icode">CrimpingSetup</span>; creation script for the <span class="icode">uniflex</span> schema, handed over to Uniflex on 27/10/2025 and used by them as a development reference.</p>
+      <figure class="shot small">
+        <a href="images/db-uniflex-schema.png" target="_blank" rel="noopener"><img src="images/db-uniflex-schema.png" alt="" loading="lazy"></a>
+        <figcaption><b>The uniflex schema.</b> The exchange tables created by the script handed over to Uniflex.</figcaption>
+      </figure>
+    </div></div>
+    <div class="item"><span class="tag t-ext">Uniflex</span><div class="body">
+      <h3>Crimper software</h3>
+      <p>Declared complete and tested in house by Uniflex; the machines have been shipped to Hermes. Counters for good pieces / pieces with a problem / total steps, job-completed and PFM messages, manual scrap button: all to be verified in the field.</p>
+    </div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">4 — Status as of 07/09/2026</span>
+    <h2>What is missing to close the project</h2>
+  </div>
+  <div class="status">
+    <div class="item"><span class="tag t-gap">Critical</span><div class="body">
+      <h3>Verifying the crimps when the WO is closed</h3>
+      <p>When the work order is closed the PCS must read back the results of its own job and compare the pieces crimped
+      without errors against the expected quantity. Today <b>the TAB_RESULTS entity does not exist in the code</b>: it has
+      to be added to the data model, and the whole checking, blocking and messaging logic has to be written.</p>
+    </div></div>
+    <div class="item"><span class="tag t-gap">Critical</span><div class="body">
+      <h3>PCS ↔ crimper integration test</h3>
+      <p>Never carried out. The machines left Veniano before the trial. The three cases (A, B, C), the counters, the PFM
+      and manual scrap handling and the consistency of the data across the two tables all need to be verified.</p>
+    </div></div>
+    <div class="item"><span class="tag t-gap">Critical</span><div class="body">
+      <h3>The <span class="icode" style="font-size:.9em">uniflex</span> schema on the Hermes database</h3>
+      <p>It only exists on the Veniano database. On Hermes the schema has to be migrated with all the structures that are
+      missing today, and the crimping master data has to be loaded.</p>
+    </div></div>
+    <div class="item"><span class="tag t-open">To clarify</span><div class="body">
+      <h3>Code alignment</h3>
+      <p>The Uniflex features were developed on the same version that is running at Hermes today, so the integration is
+      straightforward. What needs clarifying is whether the features developed later and not yet released are also
+      expected: user management, alternative part codes, second diameter, multiple operator.</p>
+    </div></div>
+    <div class="item"><span class="tag t-open">New</span><div class="body">
+      <h3>Web page for data management</h3>
+      <p>Today the crimping master data can only be loaded from a file, by the developer. Proposal: a web page with
+      company account login and two authorisation levels, read-only and edit, from which to consult and update the data
+      that today can be reached only from the PCS or the database, with Excel export and re-import for bulk updates.</p>
+    </div></div>
+    <div class="item"><span class="tag t-open">To be decided</span><div class="body">
+      <h3>Two behaviours never formalised</h3>
+      <p>What to do when a PNO has no crimping data, and how strict the block at WO closing must be. There is no
+      documentation on either: these are two decisions still to be taken.</p>
+    </div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="label">5 — Agreed baseline</span>
     <h2>What was agreed with Uniflex about the sequences</h2>
   </div>
-  <p class="prose">How the <span class="icode">Tab_Crimping</span> table is to be interpreted is the only point on which
-  there was a real technical negotiation with Uniflex. The agreements are collected here with their source and date, so
-  they can be recalled in the meeting without going back through the correspondence. The last specification sent out is
-  <span class="icode">Parker request Uniflex_crimper_4.pdf</span> of 01/08/2025, extended verbally by the points of the
-  16/09/2025 meeting.</p>
+  <p class="prose">A summary of the points agreed with Uniflex through the specifications sent out and the exchange of
+  correspondence. They mostly concern how the crimper is to interpret the sequences it receives in the exchange table.</p>
 
   <div class="agreed">
     <div class="ag">
@@ -675,118 +762,17 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
 
 <section>
   <div class="sec-head">
-    <span class="label">4 — Status as of 07/09/2026</span>
-    <h2>What has already been delivered</h2>
-  </div>
-  <div class="status">
-    <div class="item"><span class="tag t-ok">Done</span><div class="body">
-      <h3>Cell configuration</h3>
-      <p>New <span class="icode">Uniflex Devices Setup</span> group with <span class="icode">Uniflex_Crimper_Enabled</span> and <span class="icode">Uniflex_Crimper_ID</span>; crimper indicator in the status bar.</p>
-      <figure class="shot">
-        <a href="images/pcs-config-uniflex.png" target="_blank" rel="noopener"><img src="images/pcs-config-uniflex.png" alt="" loading="lazy"></a>
-        <figcaption><b>Cell configuration.</b> Uniflex feature enabled and crimper ID declared.</figcaption>
-      </figure>
-    </div></div>
-    <div class="item"><span class="tag t-ok">Done</span><div class="body">
-      <h3>Writing the job out to the crimper</h3>
-      <p><span class="icode">SetupUniflexCrimper()</span> in Form02JobInfo: reads <span class="icode">CrimpingSetup</span> for the PNO, clears and rewrites <span class="icode">Tab_Crimping</span> with ID_JOB and BATCH_QTY, with on-screen messages and the outcome written to the log.</p>
-      <figure class="shot">
-        <a href="images/db-exchange-data.png" target="_blank" rel="noopener"><img src="images/db-exchange-data.png" alt="" loading="lazy"></a>
-        <figcaption><b>Job written to the database.</b> The <span class="icode">Tab_Crimping</span> row with ID_JOB, crimper, quantity and the parameters copied from the master data.</figcaption>
-      </figure>
-    </div></div>
-    <div class="item"><span class="tag t-ok">Done</span><div class="body">
-      <h3>Crimping summary for the operator</h3>
-      <p>Panel in Form05Cutting with the die set (DIE_SET) and the programmed sequences of the piece being produced.</p>
-      <figure class="shot">
-        <a href="images/pcs-crimping-summary.png" target="_blank" rel="noopener"><img src="images/pcs-crimping-summary.png" alt="" loading="lazy"></a>
-        <figcaption><b>On-screen summary.</b> Die set and programmed sequence of the piece, with the crimper shown in the status bar.</figcaption>
-      </figure>
-    </div></div>
-    <div class="item"><span class="tag t-ok">Done</span><div class="body">
-      <h3>Data model and DB script</h3>
-      <p>EF entities <span class="icode">Tab_Crimping</span> and <span class="icode">CrimpingSetup</span>; creation script for the <span class="icode">uniflex</span> schema, handed over to Uniflex on 27/10/2025 and used by them as a development reference.</p>
-      <figure class="shot">
-        <a href="images/db-uniflex-schema.png" target="_blank" rel="noopener"><img src="images/db-uniflex-schema.png" alt="" loading="lazy"></a>
-        <figcaption><b>The uniflex schema.</b> The exchange tables created by the script handed over to Uniflex.</figcaption>
-      </figure>
-    </div></div>
-    <div class="item"><span class="tag t-ext">Uniflex</span><div class="body">
-      <h3>Crimper software</h3>
-      <p>Declared complete and tested in house by Uniflex; the machines have been shipped to Hermes. Counters for good pieces / pieces with a problem / total steps, job-completed and PFM messages, manual scrap button: all to be verified in the field.</p>
-    </div></div>
-  </div>
-</section>
-
-<section>
-  <div class="sec-head">
-    <span class="label">5 — Status as of 07/09/2026</span>
-    <h2>What is missing to close the project</h2>
-  </div>
-  <div class="status">
-    <div class="item"><span class="tag t-gap">Critical</span><div class="body">
-      <h3>Verifying the crimps when the WO is closed</h3>
-      <p>This is the blocking requirement of the agreed simulation: when the work order is closed the PCS must read
-      <span class="icode">TAB_RESULTS</span> for the ID_JOB, compare the number of crimps performed against
-      MAX(SEQUENCE) × BATCH_QTY and check that no PFM occurred. Today <b>the TAB_RESULTS entity does not exist in the
-      code</b>: it has to be added to the EF model, and the whole checking, blocking and messaging logic has to be written.</p>
-    </div></div>
-    <div class="item"><span class="tag t-gap">Critical</span><div class="body">
-      <h3>PCS ↔ crimper integration test</h3>
-      <p>Never carried out. The machines left Veniano before the trial. The three cases (A, B, C), the counters, the PFM
-      and manual scrap handling and the consistency of the data across the two tables all need to be verified.</p>
-    </div></div>
-    <div class="item"><span class="tag t-gap">Critical</span><div class="body">
-      <h3>The <span class="icode" style="font-size:.9em">uniflex</span> schema on the Hermes database</h3>
-      <p>It only exists on PCS_PokaYoke_Veniano. On Hermes the schema has to be created, the
-      <span class="icode">productComponents</span> migration applied and the crimping master data loaded.</p>
-    </div></div>
-    <div class="item"><span class="tag t-open">To clarify</span><div class="body">
-      <h3>Code alignment</h3>
-      <p>The Uniflex branch starts from <span class="icode">master</span> 1.0.1.14, the very version running at
-      Hermes: the two baselines match and the integration is straightforward. What needs clarifying instead is
-      whether Hermes also expects the features developed later — user management, alternative part codes, second
-      diameter, multiple operator — which live on 1.0.2.x branches that were never released and are therefore not
-      in production there today.</p>
-    </div></div>
-    <div class="item"><span class="tag t-open">New</span><div class="body">
-      <h3>Web portal for master data management</h3>
-      <p>Today <span class="icode">CrimpingSetup</span> can only be populated through Excel/SQL by the developer.
-      Proposal: a web application with Active Directory login and two groups (read-only / read-write), CRUD on the
-      configuration tables that can currently be edited only from the PCS or the database, plus Excel export and
-      re-import for bulk maintenance.</p>
-    </div></div>
-    <div class="item"><span class="tag t-open">To be decided</span><div class="body">
-      <h3>Two behaviours never formalised</h3>
-      <p>What to do when a PNO has no crimping data, and how strict the block at WO closing must be. There is no
-      documentation on either: these are the two points to settle in the meeting (see section 6).</p>
-    </div></div>
-  </div>
-</section>
-
-<section>
-  <div class="sec-head">
-    <span class="label">6 — To be settled in the meeting</span>
-    <h2>Open questions for Hermes</h2>
+    <span class="label">6 — Open points</span>
+    <h2>Decisions and information still to be gathered</h2>
   </div>
   <div class="qs">
     <div class="q">
       <h3>Block at WO closing: how strict?</h3>
       <p>If crimps are missing or a PFM occurred, is the WO blocked outright, or can the shift leader force the closing with a recorded reason?</p>
     </div>
-    <div class="q done">
-      <h3>How to count manual scraps</h3>
-      <p>Should pieces scrapped by the operator on the crimper (<span class="icode">ManualScrap</span>) be deducted from the expected quantity, or counted as missing pieces?</p>
-      <p class="ans"><span>Answered</span> Same behaviour as PFM: the piece is scrap to all effects, the sequence restarts from 1 and it does not count towards the good quantity.</p>
-    </div>
     <div class="q">
       <h3>PNO without crimping data</h3>
       <p>Does the job stop at the start, or does it run with a warning and leave the crimper in manual mode? Today the blocking code exists but is disabled.</p>
-    </div>
-    <div class="q done">
-      <h3>PCS version running at Hermes</h3>
-      <p>To be checked in order to size the merge: which version is in production today, and on which cells the crimper has to be enabled.</p>
-      <p class="ans"><span>Confirmed</span> Version <b>1.0.1.14</b>, confirmed by Hermes and cross-checked in the sources: it is the version on <span class="icode">master</span>, the same one the Uniflex branch starts from. The two baselines match. Which cells to enable the crimper on is still to be decided.</p>
     </div>
     <div class="q">
       <h3>Crimping master data: who owns it</h3>
