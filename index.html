@@ -466,7 +466,7 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <div class="phase">
       <div class="ph-head"><span class="ph-n">0</span><h3>Setup del PCS</h3><span class="ph-where">PCS &middot; una tantum</span></div>
       <ol class="steps">
-        <li><span class="who-app">Configurazione</span><div>Nel form di configurazione del PCS si abilita la funzione Uniflex e si dichiara il <b>numero identificativo della crimpatrice</b> collegata alla cella. Ogni cella è abilitata all&rsquo;uso di una sola macchina: quel numero è l&rsquo;<span class="icode">ID_CRIMPER</span> con cui il PCS filtrerà e riscriverà le proprie righe nella tabella di scambio.</div><span class="dt">&mdash;</span></li>
+        <li><span class="who-app">Configurazione</span><div>Nel form di configurazione del PCS si abilita la funzione Uniflex e si dichiara il <b>numero identificativo della crimpatrice</b> collegata alla cella. Ogni cella è abilitata all&rsquo;uso di una sola macchina: quel numero è l&rsquo;<span class="icode">ID_CRIMPER</span> con cui il PCS filtrerà e riscriverà le proprie righe nella tabella di scambio. Lo stesso numero deve corrispondere all&rsquo;identificativo impostato sulla crimpatrice: è la chiave con cui la macchina riconosce le righe destinate a sé.</div><span class="dt">&mdash;</span></li>
       </ol>
       <div class="shots one">
       <figure class="shot">
@@ -778,6 +778,12 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <div class="q">
       <h3>Anagrafica crimpature: chi la mantiene</h3>
       <p>Chi possiede i dati diametro, correzione, apertura e matrice per i codici Hermes, e in che formato possono essere consegnati per il primo caricamento.</p>
+    </div>
+    <div class="q">
+      <h3>ID della crimpatrice: dove si imposta sulla macchina</h3>
+      <p>Il PCS scrive le righe marcandole con l&rsquo;ID dichiarato nella propria configurazione, e la crimpatrice deve
+      leggere quelle che portano lo stesso ID. Come e dove quel numero si imposta sul pannello della macchina, e chi lo
+      fa alla messa in servizio, non è mai stato definito né nelle specifiche né nella corrispondenza.</p>
     </div>
     <div class="q">
       <h3>Documentazione Uniflex</h3>

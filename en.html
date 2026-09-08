@@ -467,7 +467,7 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <div class="phase">
       <div class="ph-head"><span class="ph-n">0</span><h3>PCS setup</h3><span class="ph-where">PCS &middot; one-off</span></div>
       <ol class="steps">
-        <li><span class="who-app">Configuration</span><div>In the PCS configuration form the Uniflex feature is enabled and the <b>identifier of the crimper</b> attached to the cell is declared. Each cell is enabled for one machine only: that number is the <span class="icode">ID_CRIMPER</span> the PCS will use to filter and rewrite its own rows in the exchange table.</div><span class="dt">&mdash;</span></li>
+        <li><span class="who-app">Configuration</span><div>In the PCS configuration form the Uniflex feature is enabled and the <b>identifier of the crimper</b> attached to the cell is declared. Each cell is enabled for one machine only: that number is the <span class="icode">ID_CRIMPER</span> the PCS will use to filter and rewrite its own rows in the exchange table. The same number has to match the identifier set on the crimper: it is the key by which the machine recognises the rows meant for it.</div><span class="dt">&mdash;</span></li>
       </ol>
       <div class="shots one">
       <figure class="shot">
@@ -776,6 +776,12 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <div class="q">
       <h3>Crimping master data: who owns it</h3>
       <p>Who holds the diameter, correction, opening and die set figures for the Hermes part numbers, and in what format they can be handed over for the initial load.</p>
+    </div>
+    <div class="q">
+      <h3>Crimper ID: where it is set on the machine</h3>
+      <p>The PCS writes its rows tagged with the ID declared in its own configuration, and the crimper has to read the
+      ones carrying that same ID. How and where that number is set on the machine panel, and who sets it at
+      commissioning, was never defined either in the specifications or in the correspondence.</p>
     </div>
     <div class="q">
       <h3>Uniflex documentation</h3>
