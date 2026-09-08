@@ -347,6 +347,23 @@ caption{caption-side:bottom;text-align:left;padding:10px 14px;font-size:13px;col
 .q.uni{border-left-color:var(--steel)}
 .q.uni .qw{color:var(--steel);border-color:var(--steel)}
 
+.q .qhead{display:flex;align-items:center;gap:8px}
+.q .qid{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.06em;
+  background:var(--gold);color:#1C1C1C;padding:3px 7px;
+}
+.item .links{
+  margin-top:7px;font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-2);
+}
+.item .links span{
+  font-family:Barlow,sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-3);margin-right:8px;
+}
+.item .links b{
+  font-family:"IBM Plex Mono",monospace;font-weight:600;background:var(--gold-soft);
+  color:var(--ink);padding:2px 6px;margin-right:5px;
+}
+
 .risks{display:flex;flex-direction:column;gap:10px}
 .risk{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline;font-size:14.5px;color:var(--ink-2)}
 .risk .lv{font-family:Barlow,sans-serif;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:3px 8px}
@@ -651,18 +668,21 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       without errors against the expected quantity. Today <b>the TAB_RESULTS entity does not exist in the code</b>: it has
       to be added to the data model, and the whole checking, blocking and messaging logic has to be written.</p>
       <p class="kind"><span>Activity</span>Code development &middot; definition of the comparison and behaviour rules</p>
+      <p class="links"><span>Open points</span><b>P3</b><b>P4</b></p>
     </div></div>
     <div class="item"><span class="tag t-gap">Critical</span><div class="body">
       <h3>The <span class="icode" style="font-size:.9em">uniflex</span> schema on the Hermes database</h3>
       <p>It only exists on the Veniano database. On Hermes the schema has to be migrated with all the structures that are
       missing today, and the crimping master data has to be loaded.</p>
       <p class="kind"><span>Activity</span>Database structure alignment</p>
+      <p class="links"><span>Open points</span><b>P1</b></p>
     </div></div>
     <div class="item"><span class="tag t-gap">Critical</span><div class="body">
       <h3>PCS ↔ crimper integration test</h3>
       <p>Never carried out. The machines left Veniano before the trial. The three cases (A, B, C), the counters, the PFM
       and manual scrap handling and the consistency of the data across the two tables all need to be verified.</p>
       <p class="kind"><span>Activity</span>Software testing, simulated and in live production</p>
+      <p class="links"><span>Open points</span><b>P5</b><b>P6</b></p>
     </div></div>
     <div class="item"><span class="tag t-open">To do</span><div class="body">
       <h3>Code alignment</h3>
@@ -686,12 +706,14 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
         running, and without having to go through the developer.</li>
       </ul>
       <p class="kind"><span>Activity</span>Code development &middot; hosting definition and configuration</p>
+      <p class="links"><span>Open points</span><b>P1</b></p>
     </div></div>
     <div class="item"><span class="tag t-open">To be decided</span><div class="body">
       <h3>Two behaviours never formalised</h3>
       <p>What to do when a PNO has no crimping data, and how strict the block at WO closing must be. There is no
       documentation on either: these are two decisions still to be taken.</p>
       <p class="kind"><span>Activity</span>Definition of the behaviour rules</p>
+      <p class="links"><span>Open points</span><b>P2</b><b>P4</b></p>
     </div></div>
   </div>
 </section>
@@ -701,19 +723,22 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <span class="label">5 — Open points</span>
     <h2>Decisions and information still to be gathered</h2>
   </div>
+  <p class="prose">Each point carries a code, referenced by the activities in the previous section it is tied
+  to: the decision taken here determines how that activity is to be built.</p>
+
   <div class="qs">
     <div class="q">
-      <span class="qw">PCS</span>
+      <div class="qhead"><span class="qid">P1</span><span class="qw">PCS</span></div>
       <h3>Crimping master data: who owns it</h3>
       <p>Who holds the diameter, correction, opening and die set figures for the Hermes part numbers, and in what format they can be handed over for the initial load.</p>
     </div>
     <div class="q">
-      <span class="qw">PCS</span>
+      <div class="qhead"><span class="qid">P2</span><span class="qw">PCS</span></div>
       <h3>PNO without crimping data</h3>
       <p>Does the job stop at the start, or does it run with a warning and leave the crimper in manual mode? Today the blocking code exists but is disabled.</p>
     </div>
     <div class="q">
-      <span class="qw">PCS</span>
+      <div class="qhead"><span class="qid">P3</span><span class="qw">PCS</span></div>
       <h3>Rules for matching results against the PCS piece count</h3>
       <p>There is no precise definition of how the PCS is to compare the results written by the crimper with
       its own count: which records make up a complete piece, how interrupted sequences and re-made pieces are
@@ -721,21 +746,21 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       actually cut.</p>
     </div>
     <div class="q">
-      <span class="qw">PCS</span>
+      <div class="qhead"><span class="qid">P4</span><span class="qw">PCS</span></div>
       <h3>Block at WO closing: how strict?</h3>
       <p>The behaviour defined during analysis is an <b>outright block</b>: if the comparison does not match, the work
       order cannot be closed. To be assessed whether an exception route is needed for special cases &mdash; a new
       proposal, never discussed so far &mdash; and, if so, who is authorised to use it and how it must be justified.</p>
     </div>
     <div class="q uni">
-      <span class="qw">Uniflex</span>
+      <div class="qhead"><span class="qid">P5</span><span class="qw">Uniflex</span></div>
       <h3>Crimper ID: where it is set on the machine</h3>
       <p>The PCS writes its rows tagged with the ID declared in its own configuration, and the crimper has to read the
       ones carrying that same ID. How and where that number is set on the machine panel, and who sets it at
       commissioning, was never defined either in the specifications or in the correspondence.</p>
     </div>
     <div class="q uni">
-      <span class="qw">Uniflex</span>
+      <div class="qhead"><span class="qid">P6</span><span class="qw">Uniflex</span></div>
       <h3>Uniflex documentation</h3>
       <p>A document describing the software changes, the implemented behaviours and the customisations made at our request should have been delivered together with the machines. Did it reach Hermes? It is the reference we need for the tests.</p>
     </div>

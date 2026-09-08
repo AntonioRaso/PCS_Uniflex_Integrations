@@ -347,6 +347,23 @@ caption{caption-side:bottom;text-align:left;padding:10px 14px;font-size:13px;col
 .q.uni{border-left-color:var(--steel)}
 .q.uni .qw{color:var(--steel);border-color:var(--steel)}
 
+.q .qhead{display:flex;align-items:center;gap:8px}
+.q .qid{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.06em;
+  background:var(--gold);color:#1C1C1C;padding:3px 7px;
+}
+.item .links{
+  margin-top:7px;font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-2);
+}
+.item .links span{
+  font-family:Barlow,sans-serif;font-size:10.5px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-3);margin-right:8px;
+}
+.item .links b{
+  font-family:"IBM Plex Mono",monospace;font-weight:600;background:var(--gold-soft);
+  color:var(--ink);padding:2px 6px;margin-right:5px;
+}
+
 .risks{display:flex;flex-direction:column;gap:10px}
 .risk{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline;font-size:14.5px;color:var(--ink-2)}
 .risk .lv{font-family:Barlow,sans-serif;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:3px 8px}
@@ -650,18 +667,21 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       senza errori con la quantità attesa. Oggi <b>l'entità TAB_RESULTS non esiste nel codice</b>: va aggiunta al
       modello dati e va scritta tutta la logica di controllo, blocco e messaggistica.</p>
       <p class="kind"><span>Intervento</span>Scrittura del codice &middot; definizione delle regole di confronto e di comportamento</p>
+      <p class="links"><span>Punti aperti</span><b>P3</b><b>P4</b></p>
     </div></div>
     <div class="item"><span class="tag t-gap">Critico</span><div class="body">
       <h3>Schema <span class="icode" style="font-size:.9em">uniflex</span> sul database di Hermes</h3>
       <p>Esiste solo sul database di Veniano. Su Hermes va migrato lo schema con tutte le strutture oggi mancanti,
       e va caricata l'anagrafica di crimpatura.</p>
       <p class="kind"><span>Intervento</span>Allineamento delle strutture del database</p>
+      <p class="links"><span>Punti aperti</span><b>P1</b></p>
     </div></div>
     <div class="item"><span class="tag t-gap">Critico</span><div class="body">
       <h3>Test di integrazione PCS ↔ crimpatrice</h3>
       <p>Mai eseguito. Le macchine sono partite da Veniano prima della prova. Vanno verificati i tre casi (A, B, C),
       i contatori, la gestione PFM e scarto manuale, e la coerenza dei dati nelle due tabelle.</p>
       <p class="kind"><span>Intervento</span>Test del software, con simulazioni e in produzione reale</p>
+      <p class="links"><span>Punti aperti</span><b>P5</b><b>P6</b></p>
     </div></div>
     <div class="item"><span class="tag t-open">Da fare</span><div class="body">
       <h3>Allineamento del codice</h3>
@@ -686,12 +706,14 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
         le celle stanno lavorando, e senza dover passare dallo sviluppatore.</li>
       </ul>
       <p class="kind"><span>Intervento</span>Scrittura del codice &middot; definizione e configurazione dell&rsquo;hosting</p>
+      <p class="links"><span>Punti aperti</span><b>P1</b></p>
     </div></div>
     <div class="item"><span class="tag t-open">Da decidere</span><div class="body">
       <h3>Due comportamenti mai formalizzati</h3>
       <p>Cosa fare quando il PNO non ha dati di crimpatura, e quanto deve essere rigido il blocco alla chiusura del WO.
       Non c'è documentazione: sono i due punti da chiudere nell'incontro (vedi sezione 6).</p>
       <p class="kind"><span>Intervento</span>Definizione delle regole di comportamento</p>
+      <p class="links"><span>Punti aperti</span><b>P2</b><b>P4</b></p>
     </div></div>
   </div>
 </section>
@@ -701,19 +723,22 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <span class="label">5 — Punti aperti</span>
     <h2>Decisioni e informazioni ancora da acquisire</h2>
   </div>
+  <p class="prose">Ogni punto porta un codice, richiamato dalle attività della sezione precedente a cui è
+  legato: la decisione presa qui determina come quell&rsquo;attività va realizzata.</p>
+
   <div class="qs">
     <div class="q">
-      <span class="qw">PCS</span>
+      <div class="qhead"><span class="qid">P1</span><span class="qw">PCS</span></div>
       <h3>Anagrafica crimpature: chi la mantiene</h3>
       <p>Chi possiede i dati diametro, correzione, apertura e matrice per i codici Hermes, e in che formato possono essere consegnati per il primo caricamento.</p>
     </div>
     <div class="q">
-      <span class="qw">PCS</span>
+      <div class="qhead"><span class="qid">P2</span><span class="qw">PCS</span></div>
       <h3>PNO senza dati di crimpatura</h3>
       <p>Il job si blocca in partenza, oppure parte con un avviso e la crimpatrice resta in modalità manuale? Oggi il codice di blocco esiste ma è disattivato.</p>
     </div>
     <div class="q">
-      <span class="qw">PCS</span>
+      <div class="qhead"><span class="qid">P3</span><span class="qw">PCS</span></div>
       <h3>Regole di confronto tra risultati e conteggio pezzi</h3>
       <p>Manca una definizione precisa di come il PCS debba confrontare i risultati scritti dalla crimpatrice
       con il proprio conteggio: quali record compongono un pezzo completo, come si trattano le sequenze
@@ -721,21 +746,21 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       order o quella effettivamente tagliata.</p>
     </div>
     <div class="q">
-      <span class="qw">PCS</span>
+      <div class="qhead"><span class="qid">P4</span><span class="qw">PCS</span></div>
       <h3>Blocco alla chiusura del WO: quanto rigido?</h3>
       <p>Il comportamento definito in fase di analisi è un <b>blocco assoluto</b>: se il confronto non torna, il work
       order non si chiude. Da valutare se serva una via d’uscita per i casi eccezionali &mdash; ipotesi nuova, mai
       discussa finora &mdash; e in tal caso chi sia autorizzato a usarla e come debba essere motivata.</p>
     </div>
     <div class="q uni">
-      <span class="qw">Uniflex</span>
+      <div class="qhead"><span class="qid">P5</span><span class="qw">Uniflex</span></div>
       <h3>ID della crimpatrice: dove si imposta sulla macchina</h3>
       <p>Il PCS scrive le righe marcandole con l&rsquo;ID dichiarato nella propria configurazione, e la crimpatrice deve
       leggere quelle che portano lo stesso ID. Come e dove quel numero si imposta sul pannello della macchina, e chi lo
       fa alla messa in servizio, non è mai stato definito né nelle specifiche né nella corrispondenza.</p>
     </div>
     <div class="q uni">
-      <span class="qw">Uniflex</span>
+      <div class="qhead"><span class="qid">P6</span><span class="qw">Uniflex</span></div>
       <h3>Documentazione Uniflex</h3>
       <p>Insieme alle macchine dovrebbe essere stato consegnato un documento che descrive le modifiche al software, i comportamenti implementati e le personalizzazioni fatte su nostra richiesta. È arrivato ad Hermes? Serve come riferimento per i test.</p>
     </div>
