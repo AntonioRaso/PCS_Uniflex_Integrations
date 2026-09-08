@@ -228,6 +228,24 @@ ol.steps li:last-child{border-bottom:none}
 .branch .dt{text-align:left}
 .ph-note{padding:12px 18px;font-size:14px;color:var(--ink-2);border-top:1px solid var(--rule);background:var(--surface-2);line-height:1.5}
 
+/* ---------- screenshot ---------- */
+.shots{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;
+  padding:15px 18px;border-top:1px solid var(--rule);background:var(--surface-2);
+}
+figure.shot{margin:0;display:flex;flex-direction:column;gap:8px}
+figure.shot a{display:block;border:1px solid var(--rule-strong);background:#FFFFFF;padding:6px;line-height:0}
+figure.shot a:hover{border-color:var(--gold-deep)}
+figure.shot img{width:100%;height:auto;display:block}
+figure.shot figcaption{font-size:12.5px;color:var(--ink-3);line-height:1.45}
+figure.shot figcaption b{color:var(--ink-2);font-weight:600}
+.item figure.shot{max-width:440px;margin-top:9px}
+.ph-pre{
+  padding:12px 18px;border-bottom:1px solid var(--rule);border-left:4px solid var(--gold);
+  font-size:14px;color:var(--ink-2);line-height:1.5;background:var(--surface-2);
+}
+.ph-pre b{color:var(--ink)}
+
 /* ---------- agreed record ---------- */
 .agreed{display:flex;flex-direction:column;gap:1px;background:var(--rule);border:1px solid var(--rule)}
 .ag{display:grid;grid-template-columns:136px 1fr;gap:0 20px;background:var(--surface);padding:14px 18px;align-items:start}
@@ -403,6 +421,7 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
 
     <div class="phase">
       <div class="ph-head"><span class="ph-n">1</span><h3>Job start</h3><span class="ph-where">PCS</span></div>
+      <p class="ph-pre"><b>Configuration prerequisite.</b> Every PCS cell is tied to a single crimper: in the configuration the feature is enabled and the machine identifier is declared — the value the PCS then writes as <span class="icode">ID_CRIMPER</span> in the table.</p>
       <ol class="steps">
         <li><span class="who-op">Operator</span><div>Declares <b>Work Order</b>, <b>PNO</b> and the <b>quantity</b> to produce.</div><span class="dt">&mdash;</span></li>
         <li><span class="who-app">Application</span><div>Looks the PNO up in the crimping master data.</div><span class="dt">reads <b>CrimpingSetup</b></span></li>
@@ -420,6 +439,16 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
           one for each planned operation.</p>
         </div>
       </div>
+      <div class="shots">
+      <figure class="shot">
+        <a href="images/pcs-config-uniflex.png" target="_blank" rel="noopener"><img src="images/pcs-config-uniflex.png" alt="PCS cell configuration, Uniflex Devices Setup group" loading="lazy"></a>
+        <figcaption><b>Cell configuration.</b> The <i>Uniflex Devices Setup</i> group: feature enabled and crimper number 4 assigned to this cell.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="images/pcs-job-wo-pno-qty.png" target="_blank" rel="noopener"><img src="images/pcs-job-wo-pno-qty.png" alt="PCS, declaring Work Order, PNO and quantity" loading="lazy"></a>
+        <figcaption><b>Job start.</b> The operator declares work order, part number and the quantity to produce.</figcaption>
+      </figure>
+      </div>
     </div>
 
     <div class="phase">
@@ -432,6 +461,12 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       and the parameters of the single operation: <span class="icode">SEQUENCE</span>, <span class="icode">DESCRIPTION</span>,
       <span class="icode">DM_CRIMP</span>, <span class="icode">CORRECTION</span>, <span class="icode">OPENING_DM</span>,
       <span class="icode">DIE_SET</span>.</p>
+      <div class="shots">
+      <figure class="shot">
+        <a href="images/db-exchange-data.png" target="_blank" rel="noopener"><img src="images/db-exchange-data.png" alt="Table contents after the job has started" loading="lazy"></a>
+        <figcaption><b>What lands in the database.</b> The same <span class="icode">ID_JOB</span> ties the PCS job (JobsHeader) to the <span class="icode">Tab_Crimping</span> row, which is filled by copying the part number parameters from the <span class="icode">CrimpingSetup</span> master data: sequence, diameter, die set, correction, opening, plus crimper 4 and quantity 16.</figcaption>
+      </figure>
+      </div>
     </div>
 
     <div class="phase">
@@ -592,18 +627,34 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <div class="item"><span class="tag t-ok">Done</span><div class="body">
       <h3>Cell configuration</h3>
       <p>New <span class="icode">Uniflex Devices Setup</span> group with <span class="icode">Uniflex_Crimper_Enabled</span> and <span class="icode">Uniflex_Crimper_ID</span>; crimper indicator in the status bar.</p>
+      <figure class="shot">
+        <a href="images/pcs-config-uniflex.png" target="_blank" rel="noopener"><img src="images/pcs-config-uniflex.png" alt="" loading="lazy"></a>
+        <figcaption><b>Cell configuration.</b> Uniflex feature enabled and crimper ID declared.</figcaption>
+      </figure>
     </div></div>
     <div class="item"><span class="tag t-ok">Done</span><div class="body">
       <h3>Writing the job out to the crimper</h3>
       <p><span class="icode">SetupUniflexCrimper()</span> in Form02JobInfo: reads <span class="icode">CrimpingSetup</span> for the PNO, clears and rewrites <span class="icode">Tab_Crimping</span> with ID_JOB and BATCH_QTY, with on-screen messages and the outcome written to the log.</p>
+      <figure class="shot">
+        <a href="images/db-exchange-data.png" target="_blank" rel="noopener"><img src="images/db-exchange-data.png" alt="" loading="lazy"></a>
+        <figcaption><b>Job written to the database.</b> The <span class="icode">Tab_Crimping</span> row with ID_JOB, crimper, quantity and the parameters copied from the master data.</figcaption>
+      </figure>
     </div></div>
     <div class="item"><span class="tag t-ok">Done</span><div class="body">
       <h3>Crimping summary for the operator</h3>
       <p>Panel in Form05Cutting with the die set (DIE_SET) and the programmed sequences of the piece being produced.</p>
+      <figure class="shot">
+        <a href="images/pcs-crimping-summary.png" target="_blank" rel="noopener"><img src="images/pcs-crimping-summary.png" alt="" loading="lazy"></a>
+        <figcaption><b>On-screen summary.</b> Die set and programmed sequence of the piece, with the crimper shown in the status bar.</figcaption>
+      </figure>
     </div></div>
     <div class="item"><span class="tag t-ok">Done</span><div class="body">
       <h3>Data model and DB script</h3>
       <p>EF entities <span class="icode">Tab_Crimping</span> and <span class="icode">CrimpingSetup</span>; creation script for the <span class="icode">uniflex</span> schema, handed over to Uniflex on 27/10/2025 and used by them as a development reference.</p>
+      <figure class="shot">
+        <a href="images/db-uniflex-schema.png" target="_blank" rel="noopener"><img src="images/db-uniflex-schema.png" alt="" loading="lazy"></a>
+        <figcaption><b>The uniflex schema.</b> The exchange tables created by the script handed over to Uniflex.</figcaption>
+      </figure>
     </div></div>
     <div class="item"><span class="tag t-ext">Uniflex</span><div class="body">
       <h3>Crimper software</h3>

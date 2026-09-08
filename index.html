@@ -228,6 +228,24 @@ ol.steps li:last-child{border-bottom:none}
 .branch .dt{text-align:left}
 .ph-note{padding:12px 18px;font-size:14px;color:var(--ink-2);border-top:1px solid var(--rule);background:var(--surface-2);line-height:1.5}
 
+/* ---------- screenshot ---------- */
+.shots{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;
+  padding:15px 18px;border-top:1px solid var(--rule);background:var(--surface-2);
+}
+figure.shot{margin:0;display:flex;flex-direction:column;gap:8px}
+figure.shot a{display:block;border:1px solid var(--rule-strong);background:#FFFFFF;padding:6px;line-height:0}
+figure.shot a:hover{border-color:var(--gold-deep)}
+figure.shot img{width:100%;height:auto;display:block}
+figure.shot figcaption{font-size:12.5px;color:var(--ink-3);line-height:1.45}
+figure.shot figcaption b{color:var(--ink-2);font-weight:600}
+.item figure.shot{max-width:440px;margin-top:9px}
+.ph-pre{
+  padding:12px 18px;border-bottom:1px solid var(--rule);border-left:4px solid var(--gold);
+  font-size:14px;color:var(--ink-2);line-height:1.5;background:var(--surface-2);
+}
+.ph-pre b{color:var(--ink)}
+
 /* ---------- agreed record ---------- */
 .agreed{display:flex;flex-direction:column;gap:1px;background:var(--rule);border:1px solid var(--rule)}
 .ag{display:grid;grid-template-columns:136px 1fr;gap:0 20px;background:var(--surface);padding:14px 18px;align-items:start}
@@ -404,6 +422,7 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
 
     <div class="phase">
       <div class="ph-head"><span class="ph-n">1</span><h3>Avvio del job</h3><span class="ph-where">PCS</span></div>
+      <p class="ph-pre"><b>Prerequisito di configurazione.</b> Ogni cella PCS è legata a una sola crimpatrice: nella configurazione si abilita la funzione e si dichiara il numero identificativo della macchina, quello che il PCS userà come <span class="icode">ID_CRIMPER</span> in tabella.</p>
       <ol class="steps">
         <li><span class="who-op">Operatore</span><div>Dichiara <b>Work Order</b>, <b>PNO</b> e <b>quantità</b> da produrre.</div><span class="dt">&mdash;</span></li>
         <li><span class="who-app">Applicativo</span><div>Cerca il PNO nell&rsquo;anagrafica di crimpatura.</div><span class="dt">legge <b>CrimpingSetup</b></span></li>
@@ -421,6 +440,16 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
           una per ogni operazione prevista.</p>
         </div>
       </div>
+      <div class="shots">
+      <figure class="shot">
+        <a href="images/pcs-config-uniflex.png" target="_blank" rel="noopener"><img src="images/pcs-config-uniflex.png" alt="PCS, configurazione cella, gruppo Uniflex Devices Setup" loading="lazy"></a>
+        <figcaption><b>Configurazione della cella.</b> Il gruppo <i>Uniflex Devices Setup</i>: funzione abilitata e crimpatrice numero 4 assegnata a questa cella.</figcaption>
+      </figure>
+      <figure class="shot">
+        <a href="images/pcs-job-wo-pno-qty.png" target="_blank" rel="noopener"><img src="images/pcs-job-wo-pno-qty.png" alt="PCS, dichiarazione di Work Order, PNO e quantita" loading="lazy"></a>
+        <figcaption><b>Avvio del job.</b> L'operatore dichiara work order, codice prodotto e quantità da produrre.</figcaption>
+      </figure>
+      </div>
     </div>
 
     <div class="phase">
@@ -433,6 +462,12 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       e i parametri della singola operazione: <span class="icode">SEQUENCE</span>, <span class="icode">DESCRIPTION</span>,
       <span class="icode">DM_CRIMP</span>, <span class="icode">CORRECTION</span>, <span class="icode">OPENING_DM</span>,
       <span class="icode">DIE_SET</span>.</p>
+      <div class="shots">
+      <figure class="shot">
+        <a href="images/db-exchange-data.png" target="_blank" rel="noopener"><img src="images/db-exchange-data.png" alt="Contenuto delle tabelle dopo l'avvio del job" loading="lazy"></a>
+        <figcaption><b>Il dato scritto a database.</b> Lo stesso <span class="icode">ID_JOB</span> lega il job del PCS (JobsHeader) alla riga di <span class="icode">Tab_Crimping</span>, che viene compilata copiando i parametri dall'anagrafica <span class="icode">CrimpingSetup</span> del codice: sequenza, diametro, matrice, correzione, apertura, più crimpatrice 4 e quantità 16.</figcaption>
+      </figure>
+      </div>
     </div>
 
     <div class="phase">
@@ -594,18 +629,34 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <div class="item"><span class="tag t-ok">Fatto</span><div class="body">
       <h3>Configurazione cella</h3>
       <p>Nuovo gruppo <span class="icode">Uniflex Devices Setup</span> con <span class="icode">Uniflex_Crimper_Enabled</span> e <span class="icode">Uniflex_Crimper_ID</span>; indicatore crimpatrice nella status bar.</p>
+      <figure class="shot">
+        <a href="images/pcs-config-uniflex.png" target="_blank" rel="noopener"><img src="images/pcs-config-uniflex.png" alt="" loading="lazy"></a>
+        <figcaption><b>Configurazione della cella.</b> Funzione Uniflex abilitata e ID crimpatrice dichiarato.</figcaption>
+      </figure>
     </div></div>
     <div class="item"><span class="tag t-ok">Fatto</span><div class="body">
       <h3>Scrittura del job verso la crimpatrice</h3>
       <p><span class="icode">SetupUniflexCrimper()</span> in Form02JobInfo: legge <span class="icode">CrimpingSetup</span> per il PNO, svuota e riscrive <span class="icode">Tab_Crimping</span> con ID_JOB e BATCH_QTY, con messaggi a video ed esito a log.</p>
+      <figure class="shot">
+        <a href="images/db-exchange-data.png" target="_blank" rel="noopener"><img src="images/db-exchange-data.png" alt="" loading="lazy"></a>
+        <figcaption><b>Job scritto a database.</b> La riga di <span class="icode">Tab_Crimping</span> con ID_JOB, crimpatrice, quantità e parametri copiati dall'anagrafica.</figcaption>
+      </figure>
     </div></div>
     <div class="item"><span class="tag t-ok">Fatto</span><div class="body">
       <h3>Riepilogo crimpature all'operatore</h3>
       <p>Pannello in Form05Cutting con matrice (DIE_SET) e sequenze programmate del pezzo in lavorazione.</p>
+      <figure class="shot">
+        <a href="images/pcs-crimping-summary.png" target="_blank" rel="noopener"><img src="images/pcs-crimping-summary.png" alt="" loading="lazy"></a>
+        <figcaption><b>Riepilogo a video.</b> Matrice e sequenza programmata del pezzo, con la crimpatrice indicata nella status bar.</figcaption>
+      </figure>
     </div></div>
     <div class="item"><span class="tag t-ok">Fatto</span><div class="body">
       <h3>Modello dati e script DB</h3>
       <p>Entità EF <span class="icode">Tab_Crimping</span> e <span class="icode">CrimpingSetup</span>; script di creazione dello schema <span class="icode">uniflex</span>, consegnato a Uniflex il 27/10/2025 e usato da loro come riferimento di sviluppo.</p>
+      <figure class="shot">
+        <a href="images/db-uniflex-schema.png" target="_blank" rel="noopener"><img src="images/db-uniflex-schema.png" alt="" loading="lazy"></a>
+        <figcaption><b>Schema uniflex a database.</b> Le tabelle di scambio create dallo script consegnato a Uniflex.</figcaption>
+      </figure>
     </div></div>
     <div class="item"><span class="tag t-ext">Uniflex</span><div class="body">
       <h3>Software crimpatrice</h3>
