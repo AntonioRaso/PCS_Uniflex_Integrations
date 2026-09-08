@@ -331,6 +331,13 @@ caption{caption-side:bottom;text-align:left;padding:10px 14px;font-size:13px;col
 .plus li{padding-left:17px;position:relative}
 .plus li::before{content:"+";position:absolute;left:0;top:0;color:var(--gold-deep);font-weight:700}
 
+.q .qw{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);border:1px solid var(--rule);padding:2px 7px;align-self:flex-start;
+}
+.q.uni{border-left-color:var(--steel)}
+.q.uni .qw{color:var(--steel);border-color:var(--steel)}
+
 .risks{display:flex;flex-direction:column;gap:10px}
 .risk{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline;font-size:14.5px;color:var(--ink-2)}
 .risk .lv{font-family:Barlow,sans-serif;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:3px 8px}
@@ -681,24 +688,37 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
   </div>
   <div class="qs">
     <div class="q">
-      <h3>Block at WO closing: how strict?</h3>
-      <p>If crimps are missing or a PFM occurred, is the WO blocked outright, or can the shift leader force the closing with a recorded reason?</p>
-    </div>
-    <div class="q">
-      <h3>PNO without crimping data</h3>
-      <p>Does the job stop at the start, or does it run with a warning and leave the crimper in manual mode? Today the blocking code exists but is disabled.</p>
-    </div>
-    <div class="q">
+      <span class="qw">PCS</span>
       <h3>Crimping master data: who owns it</h3>
       <p>Who holds the diameter, correction, opening and die set figures for the Hermes part numbers, and in what format they can be handed over for the initial load.</p>
     </div>
     <div class="q">
+      <span class="qw">PCS</span>
+      <h3>PNO without crimping data</h3>
+      <p>Does the job stop at the start, or does it run with a warning and leave the crimper in manual mode? Today the blocking code exists but is disabled.</p>
+    </div>
+    <div class="q">
+      <span class="qw">PCS</span>
+      <h3>Rules for matching results against the PCS piece count</h3>
+      <p>There is no precise definition of how the PCS is to compare the results written by the crimper with
+      its own count: which records make up a complete piece, how interrupted sequences and re-made pieces are
+      treated, and which figure the comparison is measured against — the work order quantity or the quantity
+      actually cut.</p>
+    </div>
+    <div class="q">
+      <span class="qw">PCS</span>
+      <h3>Block at WO closing: how strict?</h3>
+      <p>If crimps are missing or a PFM occurred, is the WO blocked outright, or can the shift leader force the closing with a recorded reason?</p>
+    </div>
+    <div class="q uni">
+      <span class="qw">Uniflex</span>
       <h3>Crimper ID: where it is set on the machine</h3>
       <p>The PCS writes its rows tagged with the ID declared in its own configuration, and the crimper has to read the
       ones carrying that same ID. How and where that number is set on the machine panel, and who sets it at
       commissioning, was never defined either in the specifications or in the correspondence.</p>
     </div>
-    <div class="q">
+    <div class="q uni">
+      <span class="qw">Uniflex</span>
       <h3>Uniflex documentation</h3>
       <p>A document describing the software changes, the implemented behaviours and the customisations made at our request should have been delivered together with the machines. Did it reach Hermes? It is the reference we need for the tests.</p>
     </div>

@@ -331,6 +331,13 @@ caption{caption-side:bottom;text-align:left;padding:10px 14px;font-size:13px;col
 .plus li{padding-left:17px;position:relative}
 .plus li::before{content:"+";position:absolute;left:0;top:0;color:var(--gold-deep);font-weight:700}
 
+.q .qw{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);border:1px solid var(--rule);padding:2px 7px;align-self:flex-start;
+}
+.q.uni{border-left-color:var(--steel)}
+.q.uni .qw{color:var(--steel);border-color:var(--steel)}
+
 .risks{display:flex;flex-direction:column;gap:10px}
 .risk{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:baseline;font-size:14.5px;color:var(--ink-2)}
 .risk .lv{font-family:Barlow,sans-serif;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:3px 8px}
@@ -681,24 +688,37 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
   </div>
   <div class="qs">
     <div class="q">
-      <h3>Blocco alla chiusura del WO: quanto rigido?</h3>
-      <p>Se mancano crimpature o ci sono PFM, il WO resta bloccato in assoluto, oppure il capoturno può forzare la chiusura con motivazione registrata?</p>
-    </div>
-    <div class="q">
-      <h3>PNO senza dati di crimpatura</h3>
-      <p>Il job si blocca in partenza, oppure parte con un avviso e la crimpatrice resta in modalità manuale? Oggi il codice di blocco esiste ma è disattivato.</p>
-    </div>
-    <div class="q">
+      <span class="qw">PCS</span>
       <h3>Anagrafica crimpature: chi la mantiene</h3>
       <p>Chi possiede i dati diametro, correzione, apertura e matrice per i codici Hermes, e in che formato possono essere consegnati per il primo caricamento.</p>
     </div>
     <div class="q">
+      <span class="qw">PCS</span>
+      <h3>PNO senza dati di crimpatura</h3>
+      <p>Il job si blocca in partenza, oppure parte con un avviso e la crimpatrice resta in modalità manuale? Oggi il codice di blocco esiste ma è disattivato.</p>
+    </div>
+    <div class="q">
+      <span class="qw">PCS</span>
+      <h3>Regole di confronto tra risultati e conteggio pezzi</h3>
+      <p>Manca una definizione precisa di come il PCS debba confrontare i risultati scritti dalla crimpatrice
+      con il proprio conteggio: quali record compongono un pezzo completo, come si trattano le sequenze
+      interrotte e i pezzi rifatti, e rispetto a quale numero si misura il risultato — la quantità del work
+      order o quella effettivamente tagliata.</p>
+    </div>
+    <div class="q">
+      <span class="qw">PCS</span>
+      <h3>Blocco alla chiusura del WO: quanto rigido?</h3>
+      <p>Se mancano crimpature o ci sono PFM, il WO resta bloccato in assoluto, oppure il capoturno può forzare la chiusura con motivazione registrata?</p>
+    </div>
+    <div class="q uni">
+      <span class="qw">Uniflex</span>
       <h3>ID della crimpatrice: dove si imposta sulla macchina</h3>
       <p>Il PCS scrive le righe marcandole con l&rsquo;ID dichiarato nella propria configurazione, e la crimpatrice deve
       leggere quelle che portano lo stesso ID. Come e dove quel numero si imposta sul pannello della macchina, e chi lo
       fa alla messa in servizio, non è mai stato definito né nelle specifiche né nella corrispondenza.</p>
     </div>
-    <div class="q">
+    <div class="q uni">
+      <span class="qw">Uniflex</span>
       <h3>Documentazione Uniflex</h3>
       <p>Insieme alle macchine dovrebbe essere stato consegnato un documento che descrive le modifiche al software, i comportamenti implementati e le personalizzazioni fatte su nostra richiesta. È arrivato ad Hermes? Serve come riferimento per i test.</p>
     </div>
