@@ -186,6 +186,19 @@ section{display:flex;flex-direction:column;gap:20px}
 .node p{font-size:14.5px;color:var(--ink-2);line-height:1.45}
 .arrow{display:flex;align-items:center;color:var(--gold-deep);font-family:Barlow,sans-serif;font-size:22px;font-weight:700}
 
+/* ---------- casi di crimpatura ---------- */
+.cases{display:flex;flex-direction:column;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.case{background:var(--surface);padding:14px 18px;display:flex;flex-direction:column;gap:10px}
+.case .ct{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
+.case .cl{
+  font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:19px;line-height:1;
+  width:27px;height:27px;display:flex;align-items:center;justify-content:center;flex:none;
+  background:var(--gold);color:#1C1C1C;align-self:flex-start;
+}
+.case h3{font-size:16px;flex:1;min-width:180px}
+.case p{font-size:14px;color:var(--ink-2);line-height:1.5}
+.case figure.shot{max-width:100%}
+
 /* ---------- process flow ---------- */
 .flow{display:flex;flex-direction:column;gap:14px}
 .phase{background:var(--surface);border:1px solid var(--rule);box-shadow:var(--shadow)}
@@ -404,9 +417,37 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
       <p>Un record per ogni step: pressione massima, <span class="icode">PFM</span> &mdash; <i>Pressure Force Monitoring</i>, il controllo di pressione e forza della macchina &mdash;, <span class="icode">ManualScrap</span> e <span class="icode">SEQUENCE</span>. Letto da Power BI e, a chiusura WO, dal PCS.</p>
     </div>
   </div>
-  <p class="prose" style="font-size:14.5px;color:var(--ink-3)">Casi coperti dalla specifica: <b>A</b> assemblaggio
-  standard con due raccordi, <b>B</b> multi-step con anelli (più crimpature per lato, ordinate da
-  <span class="icode">SEQUENCE</span>), <b>C</b> tubo con un solo raccordo crimpato.</p>
+  <p class="prose">La specifica copre tre casistiche di assemblaggio. Ognuna si traduce in un diverso numero di
+  righe nell&rsquo;anagrafica <span class="icode">CrimpingSetup</span> del codice, che il PCS copia poi in
+  <span class="icode">Tab_Crimping</span> all&rsquo;avvio del job.</p>
+
+  <div class="cases">
+    <div class="case">
+      <div class="ct"><span class="cl">A</span><h3>Assemblaggio standard &mdash; due raccordi</h3></div>
+      <p>Una crimpatura per lato: <b>due righe</b>, sequenze 1 e 2, stesso diametro e stessa matrice.
+      Nell&rsquo;esempio, Fitting A e Fitting B a &empty; 20,96 con matrice 20.</p>
+      <figure class="shot">
+        <a href="images/case-a.png" target="_blank" rel="noopener"><img src="images/case-a.png" alt="Anagrafica di crimpatura, caso A" loading="lazy"></a>
+      </figure>
+    </div>
+    <div class="case">
+      <div class="ct"><span class="cl">B</span><h3>Multi-step con anelli</h3></div>
+      <p>Raccordo e anello su entrambi i lati: <b>quattro righe</b> in alternanza, eseguite nell&rsquo;ordine dato da
+      <span class="icode">SequenceNbr</span>. I due elementi hanno diametri diversi &mdash; nell&rsquo;esempio &empty; 16,65
+      per i raccordi e &empty; 19 per gli anelli &mdash; quindi la macchina cambia parametri ad ogni step, sullo stesso pezzo.</p>
+      <figure class="shot">
+        <a href="images/case-b.png" target="_blank" rel="noopener"><img src="images/case-b.png" alt="Anagrafica di crimpatura, caso B" loading="lazy"></a>
+      </figure>
+    </div>
+    <div class="case">
+      <div class="ct"><span class="cl">C</span><h3>Tubo con un solo raccordo crimpato</h3></div>
+      <p>Una sola operazione: <b>una riga</b>. È il caso del codice usato negli esempi di questo documento,
+      &empty; 23,6 con matrice 23.</p>
+      <figure class="shot">
+        <a href="images/case-c.png" target="_blank" rel="noopener"><img src="images/case-c.png" alt="Anagrafica di crimpatura, caso C" loading="lazy"></a>
+      </figure>
+    </div>
+  </div>
 </section>
 
 <section>
