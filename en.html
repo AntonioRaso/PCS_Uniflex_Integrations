@@ -413,15 +413,27 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <span class="label">2 — The process step by step</span>
     <h2>How PCS and crimper work together, from job start to WO closing</h2>
   </div>
-  <p class="prose">Five phases. Each one shows who acts — <b>operator</b> or <b>application</b> — and on which side,
+  <p class="prose">One preliminary phase, carried out once when the cell is commissioned, and five production phases. Each one shows who acts — <b>operator</b> or <b>application</b> — and on which side,
   with the effect on the data on the right. The phases are numbered because the order is binding: the crimper cannot
   start before the PCS has written the setup, and the WO cannot be closed before the results have come back.</p>
 
   <div class="flow">
 
     <div class="phase">
+      <div class="ph-head"><span class="ph-n">0</span><h3>PCS setup</h3><span class="ph-where">PCS &middot; one-off</span></div>
+      <ol class="steps">
+        <li><span class="who-app">Configuration</span><div>In the PCS configuration form the Uniflex feature is enabled and the <b>identifier of the crimper</b> attached to the cell is declared. Each cell is enabled for one machine only: that number is the <span class="icode">ID_CRIMPER</span> the PCS will use to filter and rewrite its own rows in the exchange table.</div><span class="dt">&mdash;</span></li>
+      </ol>
+      <div class="shots">
+      <figure class="shot">
+        <a href="images/pcs-config-uniflex.png" target="_blank" rel="noopener"><img src="images/pcs-config-uniflex.png" alt="PCS cell configuration, Uniflex Devices Setup group" loading="lazy"></a>
+        <figcaption><b>Cell configuration.</b> The <i>Uniflex Devices Setup</i> group: feature enabled and crimper number 4 assigned to this cell.</figcaption>
+      </figure>
+      </div>
+    </div>
+
+    <div class="phase">
       <div class="ph-head"><span class="ph-n">1</span><h3>Job start</h3><span class="ph-where">PCS</span></div>
-      <p class="ph-pre"><b>Configuration prerequisite.</b> Every PCS cell is tied to a single crimper: in the configuration the feature is enabled and the machine identifier is declared — the value the PCS then writes as <span class="icode">ID_CRIMPER</span> in the table.</p>
       <ol class="steps">
         <li><span class="who-op">Operator</span><div>Declares <b>Work Order</b>, <b>PNO</b> and the <b>quantity</b> to produce.</div><span class="dt">&mdash;</span></li>
         <li><span class="who-app">Application</span><div>Looks the PNO up in the crimping master data.</div><span class="dt">reads <b>CrimpingSetup</b></span></li>
@@ -440,10 +452,6 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
         </div>
       </div>
       <div class="shots">
-      <figure class="shot">
-        <a href="images/pcs-config-uniflex.png" target="_blank" rel="noopener"><img src="images/pcs-config-uniflex.png" alt="PCS cell configuration, Uniflex Devices Setup group" loading="lazy"></a>
-        <figcaption><b>Cell configuration.</b> The <i>Uniflex Devices Setup</i> group: feature enabled and crimper number 4 assigned to this cell.</figcaption>
-      </figure>
       <figure class="shot">
         <a href="images/pcs-job-wo-pno-qty.png" target="_blank" rel="noopener"><img src="images/pcs-job-wo-pno-qty.png" alt="PCS, declaring Work Order, PNO and quantity" loading="lazy"></a>
         <figcaption><b>Job start.</b> The operator declares work order, part number and the quantity to produce.</figcaption>

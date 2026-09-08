@@ -413,7 +413,7 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
     <span class="label">2 — Il processo passo per passo</span>
     <h2>Come lavorano insieme PCS e crimpatrice, dal lancio del job alla chiusura del WO</h2>
   </div>
-  <p class="prose">Cinque fasi. In ciascuna è indicato chi agisce — <b>operatore</b> o <b>applicativo</b> —
+  <p class="prose">Una fase preliminare, che si esegue una volta sola alla messa in servizio della cella, e cinque fasi di produzione. In ciascuna è indicato chi agisce — <b>operatore</b> o <b>applicativo</b> —
   e su quale lato, e a destra l&rsquo;effetto sui dati. Le fasi sono numerate perché l&rsquo;ordine è vincolante:
   la crimpatrice non può partire prima che il PCS abbia scritto il setup, e il WO non si chiude prima che i
   risultati siano tornati indietro.</p>
@@ -421,8 +421,20 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
   <div class="flow">
 
     <div class="phase">
+      <div class="ph-head"><span class="ph-n">0</span><h3>Setup del PCS</h3><span class="ph-where">PCS &middot; una tantum</span></div>
+      <ol class="steps">
+        <li><span class="who-app">Configurazione</span><div>Nel form di configurazione del PCS si abilita la funzione Uniflex e si dichiara il <b>numero identificativo della crimpatrice</b> collegata alla cella. Ogni cella è abilitata all&rsquo;uso di una sola macchina: quel numero è l&rsquo;<span class="icode">ID_CRIMPER</span> con cui il PCS filtrerà e riscriverà le proprie righe nella tabella di scambio.</div><span class="dt">&mdash;</span></li>
+      </ol>
+      <div class="shots">
+      <figure class="shot">
+        <a href="images/pcs-config-uniflex.png" target="_blank" rel="noopener"><img src="images/pcs-config-uniflex.png" alt="PCS, configurazione cella, gruppo Uniflex Devices Setup" loading="lazy"></a>
+        <figcaption><b>Configurazione della cella.</b> Il gruppo <i>Uniflex Devices Setup</i>: funzione abilitata e crimpatrice numero 4 assegnata a questa cella.</figcaption>
+      </figure>
+      </div>
+    </div>
+
+    <div class="phase">
       <div class="ph-head"><span class="ph-n">1</span><h3>Avvio del job</h3><span class="ph-where">PCS</span></div>
-      <p class="ph-pre"><b>Prerequisito di configurazione.</b> Ogni cella PCS è legata a una sola crimpatrice: nella configurazione si abilita la funzione e si dichiara il numero identificativo della macchina, quello che il PCS userà come <span class="icode">ID_CRIMPER</span> in tabella.</p>
       <ol class="steps">
         <li><span class="who-op">Operatore</span><div>Dichiara <b>Work Order</b>, <b>PNO</b> e <b>quantità</b> da produrre.</div><span class="dt">&mdash;</span></li>
         <li><span class="who-app">Applicativo</span><div>Cerca il PNO nell&rsquo;anagrafica di crimpatura.</div><span class="dt">legge <b>CrimpingSetup</b></span></li>
@@ -441,10 +453,6 @@ footer{border-top:3px solid var(--charcoal);padding-top:16px;font-size:12.5px;co
         </div>
       </div>
       <div class="shots">
-      <figure class="shot">
-        <a href="images/pcs-config-uniflex.png" target="_blank" rel="noopener"><img src="images/pcs-config-uniflex.png" alt="PCS, configurazione cella, gruppo Uniflex Devices Setup" loading="lazy"></a>
-        <figcaption><b>Configurazione della cella.</b> Il gruppo <i>Uniflex Devices Setup</i>: funzione abilitata e crimpatrice numero 4 assegnata a questa cella.</figcaption>
-      </figure>
       <figure class="shot">
         <a href="images/pcs-job-wo-pno-qty.png" target="_blank" rel="noopener"><img src="images/pcs-job-wo-pno-qty.png" alt="PCS, dichiarazione di Work Order, PNO e quantita" loading="lazy"></a>
         <figcaption><b>Avvio del job.</b> L'operatore dichiara work order, codice prodotto e quantità da produrre.</figcaption>
