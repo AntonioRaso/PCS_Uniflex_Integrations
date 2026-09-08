@@ -123,31 +123,31 @@ a{color:var(--blue)}
 
 /* ---------- brand bar + masthead ---------- */
 .brandbar{
-  background:#FFFFFF;border-bottom:4px solid var(--gold);
+  background:var(--surface);border-bottom:4px solid var(--gold);
   margin:0 -24px 0;padding:13px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
 }
 .brandbar img.logo{height:30px;width:auto;display:block;flex:none}
 .brandbar .mark{
   font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:25px;letter-spacing:.02em;
-  color:#1C1C1C;text-transform:uppercase;line-height:1;
+  color:var(--ink);text-transform:uppercase;line-height:1;
 }
 .brandbar .mark em{color:var(--gold-deep);font-style:normal}
 .brandbar .unit{
   font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
-  color:#5A5F63;border-left:1px solid #D0D3D6;padding-left:16px;
+  color:var(--ink-3);border-left:1px solid var(--rule);padding-left:16px;
 }
 .brandbar .langsw{
   display:flex;align-items:center;gap:2px;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
-  letter-spacing:.1em;border:1px solid #D0D3D6;
+  letter-spacing:.1em;border:1px solid var(--rule);
 }
 .brandbar .langsw a,.brandbar .langsw b{padding:4px 9px;line-height:1;text-decoration:none}
-.brandbar .langsw a{color:#5A5F63}
-.brandbar .langsw a:hover{background:var(--gold-soft);color:#1C1C1C}
+.brandbar .langsw a{color:var(--ink-3)}
+.brandbar .langsw a:hover{background:var(--gold-soft);color:var(--ink)}
 .brandbar .langsw b{background:var(--gold);color:#1C1C1C;font-weight:600}
 
 .brandbar .doctype{
   margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.12em;
-  text-transform:uppercase;color:#8A6A12;
+  text-transform:uppercase;color:var(--open);
 }
 @media (max-width:520px){
   .brandbar .unit{border-left:none;padding-left:0;flex-basis:100%}
